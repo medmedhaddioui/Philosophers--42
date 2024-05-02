@@ -6,16 +6,18 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:26:11 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/04/27 15:40:32 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/01 17:03:43 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
- 
-int main ()
+
+int main (int ac, char **av)
 {
-    pthread_t thread1;
-    pthread_create();
-    
+    t_data var;
+    if (check_arguments(ac))
+        return 1;
+    initialization(ac, av, &var);
+    thread_create(&var);
     return 0;
 }
