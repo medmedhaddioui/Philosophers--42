@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_utils.c                                      :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:36:19 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/01 17:06:02 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/04 22:11:14 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,20 @@ int	ft_atoi(const char *nptr)
 	}
 	return (sign * result);
 }
-size_t	ft_strlen(const char *str)
+size_t	get_current_time_ms(void)
 {
-	size_t	i;
+	struct timeval	curr_time;
 
-	i = 0;
-	while (str[i] != '\0')
-		i++;
-	return (i);
+	if (gettimeofday(&curr_time, NULL) == -1)
+		write(2, "gettimeofday() error\n", 22);
+	return (curr_time.tv_sec * 1000 + curr_time.tv_usec / 1000);
+}
+int	ft_usleep(size_t milliseconds)
+{
+	size_t	start;
+
+	start = get_current_time_ms();
+	while ((get_current_time_ms() - start) < milliseconds)
+		usleep(500);
+	return (0);
 }

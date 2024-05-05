@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:26:11 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/04 13:16:40 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/05 17:24:29 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,19 @@ int	check_arguments(int argc, char **argv)
 		i++;
 	}
 	return (0);
-
 }
 
 int main (int ac, char **av)
 {
     t_data var;
+	t_philo philos[PHILO_LIMTS];
     if (check_arguments(ac ,av))
         return (write(2,"Invalid arguments\n",19), 1);
     if (initialization(&var, ac, av))
         return 1;
     init_forks(&var);
-    if (init_philo(&var,ac,av))
-        return 1;
+	init_philo(philos , &var);
+	thread_add(philos,av, &var);
+
     return 0;
 }

@@ -1,11 +1,11 @@
 NAME = philo
 
-SRC = philo.c utils.c init.c 
+SRC = philo.c utils.c init.c  thread.c
 
 OBJECT = $(SRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -pthread 
 
 all : $(NAME)
 
