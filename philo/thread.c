@@ -6,31 +6,25 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:28:53 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/05 17:21:56 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:25:08 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-void * routine (void *data)
+
+void *routine (void *data)
 {
 	t_philo *philo = data;
-	printf("%zu\n",philo->var.time_to_die);
+	printf("%d\n",philo->philo_id);
 	return NULL;
 }
-void  thread_add(t_philo *philos, char **av, t_data *var)
+void  thread_add(t_philo *philos, t_philo arg)
 {
-	(void) av;
 	int i;
+	i = -1;
+	while (++i < arg.nb_of_philos)
+		pthread_create(&philos[i].thread, NULL, &routine, (void *)&philos[i]);
 	i = 0;
-	while (i < var->nb_of_philos)
-	{
-		pthread_create(&philos[i].thread, NULL, &routine, (void *)&philos[i].var);
-		i++;
-	}
-	i = 0;
-	while (i < var->nb_of_philos)
-	{
-		pthread_join(philos[i].thread, NULL);
-		i++;
-	}
+	while (i < arg.nb_of_philos)
+		pthread_join(philos[i++].thread, NULL);
 }

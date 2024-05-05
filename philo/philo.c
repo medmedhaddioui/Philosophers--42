@@ -6,13 +6,13 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:26:11 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/05 17:24:29 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/05 21:24:29 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int	check_arguments(int argc, char **argv)
+int	check_arg(int argc, char **argv)
 {
 	int i;
 	i = 1;
@@ -33,18 +33,31 @@ int	check_arguments(int argc, char **argv)
 	}
 	return (0);
 }
+int 	check_arg_2(t_philo *arg, int ac, char **av)
+{
+    arg->nb_of_philos = ft_atoi(av[1]);
+    arg->time_to_die = ft_atoi(av[2]);
+    arg->time_to_eat = ft_atoi(av[3]);
+    arg->time_to_sleep = ft_atoi(av[4]);
+    if (ac == 6)
+        arg->nb_times_to_eat = ft_atoi(av[5]);
+    if (arg->nb_of_philos <= 0 || arg->time_to_die <= 0 ||  arg->nb_of_philos > PHILO_LIMTS || 
+        arg->time_to_eat <= 0 || arg->time_to_sleep <= 0)
+		return 1;
+    return 0;
+}
 
 int main (int ac, char **av)
 {
-    t_data var;
 	t_philo philos[PHILO_LIMTS];
-    if (check_arguments(ac ,av))
+	t_philo arg;
+    if (check_arg(ac ,av))
         return (write(2,"Invalid arguments\n",19), 1);
-    if (initialization(&var, ac, av))
-        return 1;
-    init_forks(&var);
-	init_philo(philos , &var);
-	thread_add(philos,av, &var);
+    if (check_arg_2(&arg ,ac, av))
+        return (write(2,"Invalid arguments2\n",20),1);
+    init_forks(arg); // maybe you should change it 
+	init_philo(philos , arg);
+	thread_add(philos, arg);
 
     return 0;
 }
