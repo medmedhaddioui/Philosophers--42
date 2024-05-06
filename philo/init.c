@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/05 21:10:01 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/06 16:13:50 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,9 @@ void init_philo (t_philo *philos, t_philo arg)
         philos[i].time_to_eat = arg.time_to_eat;
         philos[i].time_to_sleep = arg.time_to_sleep;
         philos[i].nb_times_to_eat = arg.nb_times_to_eat;
-        philos[i].start_time = get_current_time_ms();
+        philos[i].start_time = 0;
         philos[i].last_meal_time = get_current_time_ms();
+        
         i++;
     }
 }

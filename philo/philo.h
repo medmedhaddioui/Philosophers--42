@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/05 21:24:55 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:34:05 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef struct s_philo
     size_t last_meal_time;
     int nb_times_to_eat;
     int nb_of_philos;
+    pthread_mutex_t *r_fork;
+    pthread_mutex_t *l_fork;
     
 } t_philo;
 
