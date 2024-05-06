@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:26:11 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/06 12:33:10 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/06 21:04:18 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,12 @@ int main (int ac, char **av)
 {
 	t_philo philos[PHILO_LIMTS];
 	t_philo arg;
+	t_fork forks;
     if (check_arg(ac ,av))
         return (write(2,"Invalid arguments\n",19), 1);
     if (check_arg_2(&arg ,ac, av))
         return (write(2,"Invalid arguments2\n",20),1);
-    init_forks(arg);
+    init_forks(arg ,forks);
 	init_philo(philos , arg);
 	thread_add(philos, arg);
 

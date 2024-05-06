@@ -6,20 +6,22 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/06 16:13:50 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/06 21:10:32 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int init_forks(t_philo arg)
+int init_forks(t_philo arg, t_fork forks)
 {
-    pthread_mutex_t mutexs[arg.nb_of_philos];
     int i;
     i = 0;
+    forks.mutexs = malloc (sizeof(pthread_mutex_t) * arg.nb_of_philos);
+    
     while (i < arg.nb_of_philos)
 	{
-		pthread_mutex_init(&mutexs[i], NULL);
+		pthread_mutex_init(&forks.mutexs[i], NULL);
+        arg.fork_id = 
 		i++;
 	}
     return 0;
