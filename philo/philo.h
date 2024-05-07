@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/06 21:18:06 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/07 16:05:22 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,13 @@
 #include <sys/time.h>
 #define PHILO_LIMTS 200
 
-typedef struct s_fork
-{
-   pthread_mutex_t *mutexs;
-   int fork_id;
-   
-} t_fork ;
+
 
 
 typedef struct s_philo
 {
-    pthread_t thread;
     int philo_id;
+    int fork_id ;
     size_t time_to_die;
     size_t time_to_eat;
     size_t time_to_sleep;
@@ -40,9 +35,11 @@ typedef struct s_philo
     size_t last_meal_time;
     int nb_times_to_eat;
     int nb_of_philos;
-    int fork_id ;
-    t_fork *r_fork;
-    t_fork *l_fork;
+    pthread_t thread;
+    pthread_mutex_t *mutexs;
+    pthread_mutex_t *first_fork;
+    pthread_mutex_t *second_fork;
+
 } t_philo;
 
 
@@ -53,8 +50,11 @@ int	ft_atoi(const char *nptr);
 int	ft_usleep(size_t milliseconds);
 size_t	get_current_time_ms(void);
 void init_philo (t_philo *philos, t_philo arg);
-int init_forks(t_philo arg, t_fork forks);
+int init_forks(t_philo *arg);
 void  thread_add(t_philo *philos, t_philo arg);
+void eating (t_philo *philo);
+void sleeping (t_philo *philo);
+void thinking (t_philo *philo);
 
 
 
