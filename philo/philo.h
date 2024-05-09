@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/07 19:22:33 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/09 16:09:41 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 #define PHILO_LIMTS 200
+#define PHILO_1
 
 
 
@@ -39,6 +40,10 @@ typedef struct s_philo
     pthread_mutex_t *mutexs;
     pthread_mutex_t *first_fork;
     pthread_mutex_t *second_fork;
+    pthread_mutex_t write_lock;
+    pthread_mutex_t meal_lock;
+    pthread_mutex_t dead_lock;
+    int dead;
 
 } t_philo;
 
