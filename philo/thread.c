@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:28:53 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/09 16:39:09 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:49:56 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void *routine (void *data)
 		ft_usleep(philo->time_to_eat + 1);
 	while (!philo->dead)
 	{
+		if (philo->nb_times_to_eat == 0)
+			break;
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);
@@ -32,12 +34,12 @@ void one_philo (t_philo * philo)
 		printf("%ld %d is Dead" , philo->last_meal_time, philo->philo_id);
 	pthread_mutex_unlock(philo->first_fork);
 }
-void  thread_add(t_philo *philos, t_philo arg)
+void  thread_add(t_philo *philos, t_philo arg, int ac)
 {
 	
 	int i;
 	i = 0;
-	if (arg.nb_times_to_eat == 0)
+	if (ac == 6 && arg.nb_times_to_eat == 0)
 		return ; 
 	if (arg.nb_of_philos == 1)
 		return (one_philo(&philos[i]));

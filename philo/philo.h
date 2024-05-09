@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/09 16:09:41 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/09 20:51:14 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ int	ft_usleep(size_t milliseconds);
 size_t	get_current_time_ms(void);
 void init_philo (t_philo *philos, t_philo arg);
 int init_forks(t_philo *arg);
-void  thread_add(t_philo *philos, t_philo arg);
+void  thread_add(t_philo *philos, t_philo arg, int ac);
 void eating (t_philo *philo);
 void sleeping (t_philo *philo);
 void thinking (t_philo *philo);
+void lock_forks(t_philo *philo);
+void unlock_forks(t_philo *philo);
 
 
 

@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:26:11 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/07 16:05:02 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/09 18:35:26 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int main (int ac, char **av)
         return (write(2,"Invalid arguments2\n",20),1);
     init_forks(&arg);
 	init_philo(philos , arg);
-	thread_add(philos, arg);
+	thread_add(philos, arg, ac );
 
     return 0;
 }
