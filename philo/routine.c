@@ -6,43 +6,48 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:45:13 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/09 20:52:49 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/10 21:10:05 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-void lock_forks(t_philo *philo)
+void printf_info(char *s, t_philo *philo)
 {
-	pthread_mutex_lock(philo->first_fork);
-		printf("%ld %d has taken a fork\n", philo->last_meal_time, philo->philo_id);
-	pthread_mutex_lock(philo->second_fork);
-		printf("%ld %d has taken a fork\n", philo->last_meal_time, philo->philo_id);
+	pthread_mutex_lock(philo->write_lock);
+	philo->time = get_current_time_ms() - philo->start_time;
+	printf("%ld %d %s",philo->time, philo->philo_id,s);
+	pthread_mutex_unlock(philo->write_lock);
 }
-void unlock_forks(t_philo *philo)
+void locker(t_philo *philo, int flag)
 {
-	pthread_mutex_unlock(philo->first_fork);
-	pthread_mutex_unlock(philo->second_fork);
-}
-void eating (t_philo *philo)
-{
-	philo->last_meal_time =  get_current_time_ms() - philo->start_time;
-	lock_forks(philo);
-	printf("%ld %d is eating\n", philo->last_meal_time, philo->philo_id);
-		ft_usleep(philo->time_to_eat);
-	philo->nb_times_to_eat--;
-	unlock_forks(philo);
+	if (flag == LOCK)
+	{
+		pthread_mutex_lock(philo->first_fork);
+		printf_info("has taken a fork\n", philo);
+		pthread_mutex_lock(philo->second_fork);
+		printf_info("has taken a fork\n", philo);
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->first_fork);
+		pthread_mutex_unlock(philo->second_fork);
+	}
 }
 
-void thinking (t_philo *philo)
+void eating (t_philo *philo)
 {
-	philo->last_meal_time =  get_current_time_ms() - philo->start_time;
+	locker(philo, LOCK);
+	philo->time =  get_current_time_ms() - philo->start_time ;
+	printf_info("is eating\n",philo);
+	pthread_mutex_lock(philo->meal_lock);
+	philo->eating_count++;
+	pthread_mutex_unlock(philo->meal_lock);
 	ft_usleep(philo->time_to_eat);
-	printf("%ld %d is thinking\n", philo->last_meal_time, philo->philo_id);
+	locker(philo, UNLOCK);
 }
 
 void sleeping (t_philo *philo)
 {
-	philo->last_meal_time =  get_current_time_ms() -philo->start_time ;
-	printf("%ld %d is sleeping\n", philo->last_meal_time, philo->philo_id);
+	printf_info("is sleeping\n",philo);
 	ft_usleep(philo->time_to_sleep);
 }

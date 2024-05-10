@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:36:19 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/04 22:11:14 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/10 13:44:11 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,3 +51,4 @@ int	ft_usleep(size_t milliseconds)
 		usleep(500);
 	return (0);
 }
+

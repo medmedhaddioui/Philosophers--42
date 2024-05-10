@@ -6,13 +6,13 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/09 18:33:49 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/10 20:29:01 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int init_forks(t_philo *arg)
+int init_forks(t_philo *arg, t_program *program)
 {
     int i;
     i = 0;
@@ -21,13 +21,13 @@ int init_forks(t_philo *arg)
         return 1;
     while (i < arg->nb_of_philos)
 		pthread_mutex_init(&arg->mutexs[i++], NULL);
-    pthread_mutex_init(&arg->write_lock, NULL);
-    pthread_mutex_init(&arg->meal_lock, NULL);
-    pthread_mutex_init(&arg->dead_lock, NULL);
+    pthread_mutex_init(&program->write_lock, NULL);
+    pthread_mutex_init(&program->meal_lock, NULL);
+    pthread_mutex_init(&program->dead_lock, NULL);
     return 0;
 }
 
-void init_philo (t_philo *philos, t_philo arg)
+void init_philo (t_philo *philos, t_philo arg, t_program program)
 {
     int i;
     i = 0;
@@ -38,19 +38,20 @@ void init_philo (t_philo *philos, t_philo arg)
         philos[i].time_to_eat = arg.time_to_eat;
         philos[i].time_to_sleep = arg.time_to_sleep;
         philos[i].nb_times_to_eat = arg.nb_times_to_eat;
+        philos[i].eating_count = 0;
         philos[i].start_time = get_current_time_ms();
-        philos[i].last_meal_time = 0;
-        philos[i].dead = 0;
+        philos[i].time = 0;
         philos[i].first_fork = &arg.mutexs[i];
-        philos[i].dead_lock = arg.dead_lock;
-        philos[i].write_lock = arg.dead_lock;
-        philos[i].meal_lock = arg.dead_lock;
+        philos[i].write_lock = &program.write_lock;
+        philos[i].meal_lock = &program.meal_lock;
+        philos[i].dead_lock = &program.dead_lock;
         if (i == arg.nb_of_philos - 1)
             philos[i].second_fork = &arg.mutexs[0];
         else
             philos[i].second_fork = &arg.mutexs[i + 1];
         i++;
     }
-   
 }
-
+        // philos[i].dead_lock = arg.dead_lock;
+        // philos[i].write_lock = arg.dead_lock;
+        // philos[i].meal_lock = arg.dead_lock;
