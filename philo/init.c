@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/10 20:29:01 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:21:05 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void init_philo (t_philo *philos, t_philo arg, t_program *program)
         philos[i].eating_count = 0; 
         philos[i].start_time = get_current_time_ms();
         philos[i].time = 0;
+        philos[i].last_meal = get_current_time_ms();
         philos[i].first_fork = &arg.mutexs[i];
         philos[i].write_lock = &program->write_lock;
         philos[i].meal_lock = &program->meal_lock;
@@ -56,5 +57,6 @@ void init_philo (t_philo *philos, t_philo arg, t_program *program)
             philos[i].second_fork = &arg.mutexs[i + 1];
         i++;
         program->philos = philos;
+        program->nb_philos = arg.nb_of_philos;
     }
 }

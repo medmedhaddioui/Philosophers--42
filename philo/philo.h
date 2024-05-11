@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/10 20:53:59 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/11 14:57:18 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_philo
     int nb_times_to_eat;
     int nb_of_philos;
     int died;
+    size_t last_meal;
     
     // forks //
     int fork_id ;
@@ -53,6 +54,7 @@ typedef struct s_philo
 typedef struct s_program
 {
     int dead_flag;
+    int nb_philos;
     pthread_mutex_t write_lock;
     pthread_mutex_t dead_lock;
     pthread_mutex_t meal_lock;

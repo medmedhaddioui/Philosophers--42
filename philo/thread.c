@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:28:53 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/10 20:51:20 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:28:20 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void *routine (void *data)
 {
 	t_philo *philo = data;
 	if (philo->philo_id % 2 != 0)
-		ft_usleep(100);
-	while (1)
+		ft_usleep(1);
+	while (philo->died != 1)
 	{
 		if (philo->nb_times_to_eat == philo->eating_count)
 			break;
@@ -32,21 +32,26 @@ void one_philo (t_philo * philo)
 {
 	pthread_mutex_lock(philo->first_fork);
 		printf("%ld %d has taken a fork\n", philo->time, philo->philo_id);
-		printf("%ld %d is Dead" , philo->time, philo->philo_id);
+		printf("%ld %d is Dead\n" , philo->time, philo->philo_id);
 	pthread_mutex_unlock(philo->first_fork);
 }
 void *ft_check_death (void *data)
 {
 
 	t_program *program = data;
-	// (void) program;
-	while (1)
+	int i = 0;
+	while (program->philos[i].died != 1)
 	{
-		if (program->philos[0].died == 1)
-		{
-			printf("dead\n");
-			break;
-		}
+		if (program->nb_philos == i + 1)
+			i = 0;
+		i++;
+	}	
+	printf("%ld %d is Dead\n" , program->philos[i].time, program->philos[i].philo_id);
+	i = 0;
+	while (i < program->nb_philos)
+	{
+		program->philos[i].died  = 1;
+		i++;
 	}
 	return NULL;
 }
