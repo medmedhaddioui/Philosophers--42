@@ -26,32 +26,35 @@ int init_forks(t_philo *arg, t_program *program)
     pthread_mutex_init(&program->dead_lock, NULL);
     return 0;
 }
-
-void init_philo (t_philo *philos, t_philo arg, t_program program)
+void init_arg(int i, t_philo *philos,t_philo arg)
+{
+    philos[i].time_to_die = arg.time_to_die;
+    philos[i].time_to_eat = arg.time_to_eat;
+    philos[i].time_to_sleep = arg.time_to_sleep;
+    philos[i].nb_times_to_eat = arg.nb_times_to_eat;
+}
+void init_philo (t_philo *philos, t_philo arg, t_program *program)
 {
     int i;
     i = 0;
     while (i < arg.nb_of_philos)
     {
         philos[i].philo_id = i + 1;
-        philos[i].time_to_die = arg.time_to_die;
-        philos[i].time_to_eat = arg.time_to_eat;
-        philos[i].time_to_sleep = arg.time_to_sleep;
-        philos[i].nb_times_to_eat = arg.nb_times_to_eat;
-        philos[i].eating_count = 0;
+        init_arg(i, philos, arg);
+        philos[i].died = 0;
+        philos[i].eating_count = 0; 
         philos[i].start_time = get_current_time_ms();
         philos[i].time = 0;
         philos[i].first_fork = &arg.mutexs[i];
-        philos[i].write_lock = &program.write_lock;
-        philos[i].meal_lock = &program.meal_lock;
-        philos[i].dead_lock = &program.dead_lock;
+        philos[i].write_lock = &program->write_lock;
+        philos[i].meal_lock = &program->meal_lock;
+        philos[i].dead_lock = &program->dead_lock;
+        program->dead_flag = 0;
         if (i == arg.nb_of_philos - 1)
             philos[i].second_fork = &arg.mutexs[0];
         else
             philos[i].second_fork = &arg.mutexs[i + 1];
         i++;
+        program->philos = philos;
     }
 }
-        // philos[i].dead_lock = arg.dead_lock;
-        // philos[i].write_lock = arg.dead_lock;
-        // philos[i].meal_lock = arg.dead_lock;

@@ -16,7 +16,7 @@ void *routine (void *data)
 {
 	t_philo *philo = data;
 	if (philo->philo_id % 2 != 0)
-		ft_usleep(1);
+		ft_usleep(100);
 	while (1)
 	{
 		if (philo->nb_times_to_eat == philo->eating_count)
@@ -35,21 +35,43 @@ void one_philo (t_philo * philo)
 		printf("%ld %d is Dead" , philo->time, philo->philo_id);
 	pthread_mutex_unlock(philo->first_fork);
 }
-void  thread_add(t_philo *philos, t_philo arg, int ac)
+void *ft_check_death (void *data)
 {
-	
+
+	t_program *program = data;
+	// (void) program;
+	while (1)
+	{
+		if (program->philos[0].died == 1)
+		{
+			printf("dead\n");
+			break;
+		}
+	}
+	return NULL;
+}
+void  thread_add(t_philo *philos, t_philo arg, t_program *program ,int ac)
+{
 	int i;
 	i = 0;
+	pthread_t check_death ;
 	if (ac == 6 && arg.nb_times_to_eat == 0)
 		return ; 
 	if (arg.nb_of_philos == 1)
-		return (one_philo(&philos[i]));
+	{
+		one_philo(&philos[i]);
+		return ;
+	}
+	if (pthread_create(&check_death, NULL, &ft_check_death, (void *)program))
+		return ;
 	while (i < arg.nb_of_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &routine, (void *)&philos[i]))
 			return ;
 		i++;
 	}
+	if (pthread_join(check_death, NULL))
+			return ;
 	i = 0;
 	while (i < arg.nb_of_philos)
 		if (pthread_join(philos[i++].thread, NULL))

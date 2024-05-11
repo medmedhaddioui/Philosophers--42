@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "philo.h"
+
 void printf_info(char *s, t_philo *philo)
 {
 	pthread_mutex_lock(philo->write_lock);
@@ -18,6 +19,7 @@ void printf_info(char *s, t_philo *philo)
 	printf("%ld %d %s",philo->time, philo->philo_id,s);
 	pthread_mutex_unlock(philo->write_lock);
 }
+
 void locker(t_philo *philo, int flag)
 {
 	if (flag == LOCK)
@@ -37,7 +39,6 @@ void locker(t_philo *philo, int flag)
 void eating (t_philo *philo)
 {
 	locker(philo, LOCK);
-	philo->time =  get_current_time_ms() - philo->start_time ;
 	printf_info("is eating\n",philo);
 	pthread_mutex_lock(philo->meal_lock);
 	philo->eating_count++;

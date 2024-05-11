@@ -57,7 +57,7 @@ int main (int ac, char **av)
     if (check_arg_2(&arg ,ac, av))
         return (write(2,"Invalid arguments2\n",20),1);
     init_forks(&arg, &program);
-	init_philo(philos , arg, program);
-	thread_add(philos, arg, ac );
+	init_philo(philos , arg, &program);
+	thread_add(philos, arg, &program, ac);
     return 0;
 }

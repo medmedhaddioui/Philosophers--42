@@ -36,7 +36,7 @@ typedef struct s_philo
     size_t time;
     int nb_times_to_eat;
     int nb_of_philos;
-  
+    int died;
     
     // forks //
     int fork_id ;
@@ -66,10 +66,10 @@ int 	check_arg_2(t_philo *arg, int ac, char **av);
 int	ft_atoi(const char *nptr);
 int	ft_usleep(size_t milliseconds);
 size_t	get_current_time_ms(void);
-void init_philo (t_philo *philos, t_philo arg, t_program program);
+void init_philo (t_philo *philos, t_philo arg, t_program *program);
 int init_forks(t_philo *arg, t_program *program);
-void  thread_add(t_philo *philos, t_philo arg, int ac);
 void eating (t_philo *philo);
+void  thread_add(t_philo *philos, t_philo arg, t_program *program ,int ac);
 void sleeping (t_philo *philo);
 void printf_info(char *s, t_philo * philo);
 void locker(t_philo *philo, int flag);
