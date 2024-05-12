@@ -19,12 +19,13 @@ void *routine (void *data)
 		ft_usleep(1);
 	while (philo->died != 1)
 	{
-		if (philo->nb_times_to_eat == philo->eating_count)
+		if (philo->nb_times_to_eat == philo->eating_count && philo->flag == 0)
 			break;
 		eating(philo);
 		sleeping(philo);
 		printf_info("is thinking\n",philo);
 	}
+	philo->flag = 3;
 	return NULL;
 }
 
@@ -35,18 +36,24 @@ void one_philo (t_philo * philo)
 		printf("%ld %d is Dead\n" , philo->time, philo->philo_id);
 	pthread_mutex_unlock(philo->first_fork);
 }
+
 void *ft_check_death (void *data)
 {
-
 	t_program *program = data;
 	int i = 0;
 	while (program->philos[i].died != 1)
 	{
 		if (program->nb_philos == i + 1)
+		{
 			i = 0;
+			continue;
+		}
+		if (program->philos[i].flag == 3)
+			return NULL;
 		i++;
-	}	
-	printf("%ld %d is Dead\n" , program->philos[i].time, program->philos[i].philo_id);
+	}
+	if (program->philos[i].died == 1)
+		printf("----------->%ld %d is Dead\n" , program->philos[i].time, program->philos[i].philo_id);
 	i = 0;
 	while (i < program->nb_philos)
 	{
@@ -55,18 +62,17 @@ void *ft_check_death (void *data)
 	}
 	return NULL;
 }
+
 void  thread_add(t_philo *philos, t_philo arg, t_program *program ,int ac)
 {
 	int i;
 	i = 0;
 	pthread_t check_death ;
+
 	if (ac == 6 && arg.nb_times_to_eat == 0)
 		return ; 
 	if (arg.nb_of_philos == 1)
-	{
-		one_philo(&philos[i]);
-		return ;
-	}
+		return (one_philo(&philos[i]));
 	if (pthread_create(&check_death, NULL, &ft_check_death, (void *)program))
 		return ;
 	while (i < arg.nb_of_philos)

@@ -41,14 +41,14 @@ void locker(t_philo *philo, int flag)
 
 void eating (t_philo *philo)
 {
+	philo->last_meal = get_current_time_ms();
 	locker(philo, LOCK);
 	pthread_mutex_lock(philo->meal_lock);
-	philo->last_meal = get_current_time_ms();
 	printf_info("is eating\n",philo);
 	philo->eating_count++;
 	pthread_mutex_unlock(philo->meal_lock);
 	ft_usleep(philo->time_to_eat);
-	if (philo->last_meal - get_current_time_ms() > philo->time_to_die)
+	if ((get_current_time_ms()) - philo->last_meal > philo->time_to_die)
 		philo->died = 1;
 	locker(philo, UNLOCK);
 }
@@ -57,6 +57,6 @@ void sleeping (t_philo *philo)
 {
 	printf_info("is sleeping\n",philo);
 	ft_usleep(philo->time_to_sleep);
-	if (philo->last_meal > philo->time_to_die)
+	if (get_current_time_ms() - philo->last_meal > philo->time_to_die)
 		philo->died = 1;
 }

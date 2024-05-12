@@ -26,18 +26,19 @@
 typedef struct s_philo
 {  
     // philos data  //
-    int philo_id;
     pthread_t thread;
     size_t time_to_die;
     size_t time_to_eat;
     size_t time_to_sleep;
     size_t start_time;
-    int  eating_count;
+    size_t last_meal;
     size_t time;
+    int philo_id;
+    int  eating_count;
     int nb_times_to_eat;
     int nb_of_philos;
     int died;
-    size_t last_meal;
+    int flag;
     
     // forks //
     int fork_id ;
@@ -68,7 +69,7 @@ int 	check_arg_2(t_philo *arg, int ac, char **av);
 int	ft_atoi(const char *nptr);
 int	ft_usleep(size_t milliseconds);
 size_t	get_current_time_ms(void);
-void init_philo (t_philo *philos, t_philo arg, t_program *program);
+void init_philo (t_philo *philos, t_philo arg, t_program *program, int ac);
 int init_forks(t_philo *arg, t_program *program);
 void eating (t_philo *philo);
 void  thread_add(t_philo *philos, t_philo arg, t_program *program ,int ac);

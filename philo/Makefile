@@ -5,7 +5,7 @@ SRC = philo.c utils.c init.c  thread.c routine.c
 OBJECT = $(SRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -pthread 
+CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=thread
 
 all : $(NAME)
 
