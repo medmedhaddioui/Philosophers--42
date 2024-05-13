@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:28:53 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/11 15:28:20 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:30:54 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,47 +19,51 @@ void *routine (void *data)
 		ft_usleep(1);
 	while (philo->died != 1)
 	{
-		if (philo->nb_times_to_eat == philo->eating_count && philo->flag == 0)
+		if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count )
+		{
+			philo->flag = FULL;
 			break;
+		}
 		eating(philo);
 		sleeping(philo);
-		printf_info("is thinking\n",philo);
+		thinking(philo);
 	}
-	philo->flag = 3;
 	return NULL;
 }
 
 void one_philo (t_philo * philo)
 {
 	pthread_mutex_lock(philo->first_fork);
-		printf("%ld %d has taken a fork\n", philo->time, philo->philo_id);
-		printf("%ld %d is Dead\n" , philo->time, philo->philo_id);
+	printf("%ld %d has taken a fork\n", philo->time, philo->philo_id);
+	printf("%ld %d is Dead\n" , philo->time_to_die, philo->philo_id);
 	pthread_mutex_unlock(philo->first_fork);
 }
 
 void *ft_check_death (void *data)
 {
 	t_program *program = data;
-	int i = 0;
-	while (program->philos[i].died != 1)
+	int i = -1;
+	size_t time_die = program->philos[0].time_to_die;
+	int j = 0;
+	while (get_current_time_ms() - program->philos[++i].last_meal <= time_die)
 	{
-		if (program->nb_philos == i + 1)
+		if (program->philos[i].flag == FULL)
 		{
-			i = 0;
-			continue;
-		}
-		if (program->philos[i].flag == 3)
+			j = 0;
+			while (j < program->nb_philos  && get_current_time_ms() - program->philos[j].last_meal <= time_die)
+			{ 
+				if (program->philos[j].flag == FULL)
+					j++;
+			}
 			return NULL;
-		i++;
+		}
+		if (program->nb_philos == i + 1)
+			i = 0;
 	}
-	if (program->philos[i].died == 1)
-		printf("----------->%ld %d is Dead\n" , program->philos[i].time, program->philos[i].philo_id);
-	i = 0;
-	while (i < program->nb_philos)
-	{
-		program->philos[i].died  = 1;
-		i++;
-	}
+	j = 0;
+	while (j < program->nb_philos)
+		program->philos[j++].died  = 1;
+	printf("%ld %d is Dead\n" ,time_die, program->philos[i].philo_id);
 	return NULL;
 }
 

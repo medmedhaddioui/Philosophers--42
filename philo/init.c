@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/11 15:21:05 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:18:03 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@ void init_arg_philo(int i, t_philo *philos, t_philo arg, int ac)
     if (ac == 6)
     {
             philos[i].nb_times_to_eat = arg.nb_times_to_eat;
-            philos[i].flag = 0;
+            philos[i].flag = EAT_COUNT_ON;
     }
     else
-        philos[i].flag = 1;
+        philos[i].flag = EAT_COUNT_OFF;
 }
 void init_program (t_program *program, t_philo *philos, t_philo arg)
 {
@@ -59,7 +59,7 @@ void init_philo (t_philo *philos, t_philo arg, t_program *program, int ac)
         philos[i].eating_count = 0; 
         philos[i].start_time = get_current_time_ms();
         philos[i].time = 0;
-        philos[i].last_meal = 0;
+        philos[i].last_meal = get_current_time_ms();
         philos[i].first_fork = &arg.mutexs[i];
         philos[i].write_lock = &program->write_lock;
         philos[i].meal_lock = &program->meal_lock;

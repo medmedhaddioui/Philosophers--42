@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/11 14:57:18 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/13 20:18:19 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 #define PHILO_LIMTS 200
 #define LOCK 1
 #define UNLOCK 0
+#define EAT_COUNT_ON 1
+#define EAT_COUNT_OFF 0
+#define FULL 3
 
 typedef struct s_philo
 {  
@@ -34,11 +37,12 @@ typedef struct s_philo
     size_t last_meal;
     size_t time;
     int philo_id;
-    int  eating_count;
+    int eating_count;
     int nb_times_to_eat;
     int nb_of_philos;
     int died;
     int flag;
+    int full;
     
     // forks //
     int fork_id ;
@@ -46,6 +50,7 @@ typedef struct s_philo
     pthread_mutex_t *first_fork;
     pthread_mutex_t *second_fork;
     
+    // for data race
     pthread_mutex_t *write_lock;
     pthread_mutex_t *meal_lock;
     pthread_mutex_t *dead_lock;
@@ -76,7 +81,7 @@ void  thread_add(t_philo *philos, t_philo arg, t_program *program ,int ac);
 void sleeping (t_philo *philo);
 void printf_info(char *s, t_philo * philo);
 void locker(t_philo *philo, int flag);
-
+void thinking (t_philo *philo);
 
 
 #endif 
