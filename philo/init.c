@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/14 14:14:59 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:00:11 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void init_philo (t_philo *philos, t_philo arg, t_program *program, int ac)
     int i;
     i = 0;
     while (i < arg.nb_of_philos)
-    {   
+    {
         init_arg_philo(i, philos, arg, ac);
         philos[i].died = 0;
         philos[i].eating_count = 0; 

@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:28:53 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/14 14:26:19 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:48:31 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,19 +83,20 @@ void  thread_add(t_philo *philos, t_philo arg, t_program *program ,int ac)
 	if (ac == 6 && arg.nb_times_to_eat == 0)
 		return ; 
 	if (arg.nb_of_philos == 1)
-		return (one_philo(&philos[i]));
+		return (destroy_all(&philos[0]),one_philo(&philos[i]));
 	if (pthread_create(&check_death, NULL, &ft_check_death, (void *)program))
-		return ;
+		return(destroy_all(&philos[0]));
 	while (i < arg.nb_of_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &routine, (void *)&philos[i]))
-			return ;
+			return(destroy_all(&philos[0]));
 		i++;
 	}
 	if (pthread_join(check_death, NULL))
-			return ;
+		return (destroy_all(&philos[0]));
 	i = 0;
 	while (i < arg.nb_of_philos)
 		if (pthread_join(philos[i++].thread, NULL))
-			return ;
+			return (destroy_all(&philos[0]));
+	destroy_all(&philos[0]);
 }

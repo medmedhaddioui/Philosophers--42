@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 14:45:13 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/13 16:22:48 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/14 17:26:27 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void locker(t_philo *philo, int flag)
 }
 
 void eating (t_philo *philo)
-{
-	
+{	
 	locker(philo, LOCK);
 	philo->last_meal = get_current_time_ms();
 	pthread_mutex_lock(philo->meal_lock);

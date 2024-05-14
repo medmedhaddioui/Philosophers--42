@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:36:19 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/10 13:44:11 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:41:43 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,20 @@ int	ft_atoi(const char *nptr)
 		nptr++;
 	}
 	return (sign * result);
+}
+void destroy_all (t_philo *philo)
+{
+	int i;
+	i = 0;
+	while (i < philo->nb_of_philos)
+	{
+		pthread_mutex_destroy(&philo->mutexs[i]);
+		i++;
+	}
+	pthread_mutex_destroy(philo->meal_lock);
+	pthread_mutex_destroy(philo->write_lock);
+	pthread_mutex_destroy(philo->dead_lock);
+
 }
 size_t	get_current_time_ms(void)
 {

@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/14 14:15:03 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/14 16:41:50 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ void sleeping (t_philo *philo);
 void printf_info(char *s, t_philo * philo);
 void locker(t_philo *philo, int flag);
 void thinking (t_philo *philo);
+void destroy_all (t_philo *philo);
 
 
 #endif 
