@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/13 20:18:19 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:15:03 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 #define UNLOCK 0
 #define EAT_COUNT_ON 1
 #define EAT_COUNT_OFF 0
-#define FULL 3
+#define FULL 2
 
 typedef struct s_philo
 {  

@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:28:53 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/13 20:30:54 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:26:19 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void *routine (void *data)
 		ft_usleep(1);
 	while (philo->died != 1)
 	{
-		if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count )
+		if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count)
 		{
-			philo->flag = FULL;
+			philo->full = FULL;
 			break;
 		}
 		eating(philo);
@@ -39,26 +39,33 @@ void one_philo (t_philo * philo)
 	pthread_mutex_unlock(philo->first_fork);
 }
 
+int check_philos_full (t_program * program)
+{
+	int i = 0;
+	while (i < program->nb_philos)
+	{ 
+		if (program->philos[i].full != FULL)
+			return 0;
+		i++;
+	}
+	return 1;
+}
 void *ft_check_death (void *data)
 {
 	t_program *program = data;
-	int i = -1;
 	size_t time_die = program->philos[0].time_to_die;
-	int j = 0;
-	while (get_current_time_ms() - program->philos[++i].last_meal <= time_die)
+	int i = 0;
+	int j;
+	while (get_current_time_ms() - program->philos[i].last_meal <= time_die)
 	{
-		if (program->philos[i].flag == FULL)
+		if (program->philos[i].full == FULL)
 		{
-			j = 0;
-			while (j < program->nb_philos  && get_current_time_ms() - program->philos[j].last_meal <= time_die)
-			{ 
-				if (program->philos[j].flag == FULL)
-					j++;
-			}
-			return NULL;
+			if(check_philos_full(program))
+				return NULL;
 		}
 		if (program->nb_philos == i + 1)
 			i = 0;
+		i++;
 	}
 	j = 0;
 	while (j < program->nb_philos)

@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/13 20:18:03 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/14 14:14:59 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void init_arg_philo(int i, t_philo *philos, t_philo arg, int ac)
     {
             philos[i].nb_times_to_eat = arg.nb_times_to_eat;
             philos[i].flag = EAT_COUNT_ON;
+            philos[i].full = 0;
     }
     else
         philos[i].flag = EAT_COUNT_OFF;
