@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:36:19 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/14 16:41:43 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:07:03 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,12 @@ size_t	get_current_time_ms(void)
 		write(2, "gettimeofday() error\n", 22);
 	return (curr_time.tv_sec * 1000 + curr_time.tv_usec / 1000);
 }
-int	ft_usleep(size_t milliseconds)
+int	ft_usleep(t_philo *philo, size_t milliseconds)
 {
 	size_t	start;
 
 	start = get_current_time_ms();
-	while ((get_current_time_ms() - start) < milliseconds)
+	while (*philo->died != 1 && (get_current_time_ms() - start) < milliseconds)
 		usleep(100);
 	return (0);
 }

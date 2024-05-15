@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:28:53 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/14 16:48:31 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:22:13 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@ void *routine (void *data)
 {
 	t_philo *philo = data;
 	if (philo->philo_id % 2 != 0)
-		ft_usleep(1);
-	while (philo->died != 1)
+		usleep(100);
+	while (*philo->died != 1)
 	{
 		if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count)
 		{
-			philo->full = FULL;
+			memset( philo->full,2,1);
+			// philo->full = FULL;
 			break;
 		}
 		eating(philo);
@@ -52,25 +53,31 @@ int check_philos_full (t_program * program)
 }
 void *ft_check_death (void *data)
 {
-	t_program *program = data;
-	size_t time_die = program->philos[0].time_to_die;
+	t_program *prog = data;
+	size_t time_die = prog->philos[0].time_to_die;
 	int i = 0;
-	int j;
-	while (get_current_time_ms() - program->philos[i].last_meal <= time_die)
+	size_t time_check;
+	pthread_mutex_lock(prog->philos[0].meal_lock);
+	time_check = get_current_time_ms() - prog->philos[i].last_meal;
+	pthread_mutex_unlock(prog->philos[0].meal_lock);
+	while (time_check <= time_die)
 	{
-		if (program->philos[i].full == FULL)
+		if (prog->philos[i].full == FULL)
 		{
-			if(check_philos_full(program))
+			if(check_philos_full(prog))
 				return NULL;
 		}
-		if (program->nb_philos == i + 1)
+		if (prog->nb_philos == i + 1)
 			i = 0;
+		pthread_mutex_lock(prog->philos[0].meal_lock);
+		time_check = get_current_time_ms() - prog->philos[i].last_meal;
+		pthread_mutex_unlock(prog->philos[0].meal_lock);
 		i++;
 	}
-	j = 0;
-	while (j < program->nb_philos)
-		program->philos[j++].died  = 1;
-	printf("%ld %d is Dead\n" ,time_die, program->philos[i].philo_id);
+	pthread_mutex_lock(prog->philos[0].dead_lock);
+	prog->dead_flag = 1;
+	pthread_mutex_unlock(prog->philos[0].dead_lock);
+	printf("%ld %d is Dead\n" ,time_die, prog->philos[i].philo_id);
 	return NULL;
 }
 

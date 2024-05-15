@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/14 16:41:50 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/15 12:01:56 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_philo
     int eating_count;
     int nb_times_to_eat;
     int nb_of_philos;
-    int died;
+    int *died;
     int flag;
     int full;
     
@@ -72,7 +72,7 @@ typedef struct s_program
 int	check_arg(int argc, char **argv);
 int 	check_arg_2(t_philo *arg, int ac, char **av);
 int	ft_atoi(const char *nptr);
-int	ft_usleep(size_t milliseconds);
+int	ft_usleep(t_philo *philo, size_t milliseconds);
 size_t	get_current_time_ms(void);
 void init_philo (t_philo *philos, t_philo arg, t_program *program, int ac);
 int init_forks(t_philo *arg, t_program *program);
