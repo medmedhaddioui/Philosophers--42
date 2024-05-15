@@ -15,7 +15,7 @@
 void printf_info(char *s, t_philo *philo)
 {
 	pthread_mutex_lock(philo->write_lock);
-	if (*philo->died != 1)
+	if (!dead_lock_func(philo))
 	{
 		philo->time = get_current_time_ms() - philo->start_time;
 		printf("%ld %d %s",philo->time, philo->philo_id, s);
@@ -42,12 +42,12 @@ void locker(t_philo *philo, int flag)
 void eating (t_philo *philo)
 {	
 	locker(philo, LOCK);
-	philo->last_meal = get_current_time_ms();
 	pthread_mutex_lock(philo->meal_lock);
+	philo->last_meal = get_current_time_ms();
 	philo->eating_count++;
 	pthread_mutex_unlock(philo->meal_lock);
 	printf_info("is eating\n",philo);
-	ft_usleep(philo,philo->time_to_eat);
+		ft_usleep(philo, philo->time_to_eat);
 	locker(philo, UNLOCK);
 }
 

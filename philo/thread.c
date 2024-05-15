@@ -16,13 +16,14 @@ void *routine (void *data)
 {
 	t_philo *philo = data;
 	if (philo->philo_id % 2 != 0)
-		usleep(100);
-	while (*philo->died != 1)
+		usleep(10000);
+	while (!dead_lock_func(philo))
 	{
 		if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count)
 		{
-			memset( philo->full,2,1);
-			// philo->full = FULL;
+			pthread_mutex_lock(philo->meal_lock);
+			philo->full = FULL;
+			pthread_mutex_unlock(philo->meal_lock);
 			break;
 		}
 		eating(philo);
@@ -40,39 +41,47 @@ void one_philo (t_philo * philo)
 	pthread_mutex_unlock(philo->first_fork);
 }
 
-int check_philos_full (t_program * program)
+int check_philos_full (t_program * prog)
 {
 	int i = 0;
-	while (i < program->nb_philos)
+	while (i < prog->nb_philos)
 	{ 
-		if (program->philos[i].full != FULL)
+		if (!check_full(prog,i))
 			return 0;
 		i++;
 	}
 	return 1;
 }
+int  check_full(t_program *prog, int i)
+{
+	pthread_mutex_lock(prog->philos[0].meal_lock);
+	if (prog->philos[i].full == FULL)
+		return (pthread_mutex_unlock(prog->philos[0].meal_lock),1);
+	pthread_mutex_unlock(prog->philos[0].meal_lock);
+	return 0;
+}
 void *ft_check_death (void *data)
 {
 	t_program *prog = data;
-	size_t time_die = prog->philos[0].time_to_die;
 	int i = 0;
 	size_t time_check;
+	size_t time_die = prog->philos[0].time_to_die;
 	pthread_mutex_lock(prog->philos[0].meal_lock);
 	time_check = get_current_time_ms() - prog->philos[i].last_meal;
 	pthread_mutex_unlock(prog->philos[0].meal_lock);
 	while (time_check <= time_die)
 	{
-		if (prog->philos[i].full == FULL)
+		if (check_full(prog, i))
 		{
 			if(check_philos_full(prog))
 				return NULL;
 		}
 		if (prog->nb_philos == i + 1)
-			i = 0;
-		pthread_mutex_lock(prog->philos[0].meal_lock);
-		time_check = get_current_time_ms() - prog->philos[i].last_meal;
-		pthread_mutex_unlock(prog->philos[0].meal_lock);
+			i = -1;
 		i++;
+		pthread_mutex_lock(prog->philos[i].meal_lock);
+		time_check = get_current_time_ms() - prog->philos[i].last_meal;
+		pthread_mutex_unlock(prog->philos[i].meal_lock);
 	}
 	pthread_mutex_lock(prog->philos[0].dead_lock);
 	prog->dead_flag = 1;
@@ -103,7 +112,9 @@ void  thread_add(t_philo *philos, t_philo arg, t_program *program ,int ac)
 		return (destroy_all(&philos[0]));
 	i = 0;
 	while (i < arg.nb_of_philos)
+	{
 		if (pthread_join(philos[i++].thread, NULL))
 			return (destroy_all(&philos[0]));
+	}
 	destroy_all(&philos[0]);
 }

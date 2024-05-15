@@ -46,7 +46,6 @@ void destroy_all (t_philo *philo)
 	pthread_mutex_destroy(philo->meal_lock);
 	pthread_mutex_destroy(philo->write_lock);
 	pthread_mutex_destroy(philo->dead_lock);
-
 }
 size_t	get_current_time_ms(void)
 {
@@ -61,8 +60,16 @@ int	ft_usleep(t_philo *philo, size_t milliseconds)
 	size_t	start;
 
 	start = get_current_time_ms();
-	while (*philo->died != 1 && (get_current_time_ms() - start) < milliseconds)
+	while (!dead_lock_func(philo) && (get_current_time_ms() - start) < milliseconds)
 		usleep(100);
 	return (0);
+}
+int dead_lock_func(t_philo *philo)
+{
+	pthread_mutex_lock(philo->dead_lock);
+	if (*philo->died == 1)
+		return (pthread_mutex_unlock(philo->dead_lock), 1);
+	pthread_mutex_unlock(philo->dead_lock);
+	return 0;
 }
 

@@ -54,6 +54,7 @@ typedef struct s_philo
     pthread_mutex_t *write_lock;
     pthread_mutex_t *meal_lock;
     pthread_mutex_t *dead_lock;
+    pthread_mutex_t *full_lock;
 
 } t_philo;
 
@@ -64,6 +65,7 @@ typedef struct s_program
     pthread_mutex_t write_lock;
     pthread_mutex_t dead_lock;
     pthread_mutex_t meal_lock;
+    pthread_mutex_t full_lock;
     t_philo *philos;
     
 }   t_program;
@@ -83,6 +85,7 @@ void printf_info(char *s, t_philo * philo);
 void locker(t_philo *philo, int flag);
 void thinking (t_philo *philo);
 void destroy_all (t_philo *philo);
-
+int dead_lock_func(t_philo *philo);
+int  check_full(t_program *prog, int i);
 
 #endif 
