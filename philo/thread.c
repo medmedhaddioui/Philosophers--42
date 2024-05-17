@@ -15,8 +15,7 @@
 void *routine (void *data)
 {
 	t_philo *philo = data;
-	if (philo->philo_id % 2 != 0)
-		usleep(10000);
+
 	while (!dead_lock_func(philo))
 	{
 		if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count)
@@ -26,7 +25,11 @@ void *routine (void *data)
 			pthread_mutex_unlock(philo->meal_lock);
 			break;
 		}
-		eating(philo);
+		if (philo->philo_id % 2 == 0)
+		even_philo(philo);
+		else
+		odd_philo(philo);
+
 		sleeping(philo);
 		thinking(philo);
 	}
@@ -46,7 +49,7 @@ int check_philos_full (t_program * prog)
 	int i = 0;
 	while (i < prog->nb_philos)
 	{ 
-		if (!check_full(prog,i))
+		if (prog->philos[i].full != FULL)
 			return 0;
 		i++;
 	}
@@ -105,7 +108,10 @@ void  thread_add(t_philo *philos, t_philo arg, t_program *program ,int ac)
 	while (i < arg.nb_of_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &routine, (void *)&philos[i]))
+		{
 			return(destroy_all(&philos[0]));
+		}
+			usleep(200);
 		i++;
 	}
 	if (pthread_join(check_death, NULL))

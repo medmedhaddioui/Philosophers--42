@@ -78,14 +78,16 @@ int	ft_usleep(t_philo *philo, size_t milliseconds);
 size_t	get_current_time_ms(void);
 void init_philo (t_philo *philos, t_philo arg, t_program *program, int ac);
 int init_forks(t_philo *arg, t_program *program);
-void eating (t_philo *philo);
+// void eating (t_philo *philo);
 void  thread_add(t_philo *philos, t_philo arg, t_program *program ,int ac);
 void sleeping (t_philo *philo);
 void printf_info(char *s, t_philo * philo);
-void locker(t_philo *philo, int flag);
+// void locker(t_philo *philo, int flag);
 void thinking (t_philo *philo);
 void destroy_all (t_philo *philo);
 int dead_lock_func(t_philo *philo);
 int  check_full(t_program *prog, int i);
+void even_philo(t_philo *philo);
+void odd_philo(t_philo *philo);
 
 #endif 
