@@ -15,21 +15,17 @@
 void *routine (void *data)
 {
 	t_philo *philo = data;
-
+	
 	while (!dead_lock_func(philo))
 	{
 		if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count)
 		{
-			pthread_mutex_lock(philo->meal_lock);
+			pthread_mutex_lock(philo->full_lock);
 			philo->full = FULL;
-			pthread_mutex_unlock(philo->meal_lock);
+			pthread_mutex_unlock(philo->full_lock);
 			break;
 		}
-		if (philo->philo_id % 2 == 0)
-		even_philo(philo);
-		else
-		odd_philo(philo);
-
+		eating(philo);
 		sleeping(philo);
 		thinking(philo);
 	}
@@ -38,10 +34,10 @@ void *routine (void *data)
 
 void one_philo (t_philo * philo)
 {
-	pthread_mutex_lock(philo->first_fork);
+	pthread_mutex_lock(philo->l_fork);
 	printf("%ld %d has taken a fork\n", philo->time, philo->philo_id);
 	printf("%ld %d is Dead\n" , philo->time_to_die, philo->philo_id);
-	pthread_mutex_unlock(philo->first_fork);
+	pthread_mutex_unlock(philo->l_fork);
 }
 
 int check_philos_full (t_program * prog)
@@ -49,7 +45,7 @@ int check_philos_full (t_program * prog)
 	int i = 0;
 	while (i < prog->nb_philos)
 	{ 
-		if (prog->philos[i].full != FULL)
+		if (check_full(prog, i) == 0)
 			return 0;
 		i++;
 	}
@@ -57,10 +53,10 @@ int check_philos_full (t_program * prog)
 }
 int  check_full(t_program *prog, int i)
 {
-	pthread_mutex_lock(prog->philos[0].meal_lock);
+	pthread_mutex_lock(prog->philos[i].full_lock);
 	if (prog->philos[i].full == FULL)
-		return (pthread_mutex_unlock(prog->philos[0].meal_lock),1);
-	pthread_mutex_unlock(prog->philos[0].meal_lock);
+		return (pthread_mutex_unlock(prog->philos[i].full_lock), 1);
+	pthread_mutex_unlock(prog->philos[i].full_lock);
 	return 0;
 }
 void *ft_check_death (void *data)
@@ -72,11 +68,11 @@ void *ft_check_death (void *data)
 	pthread_mutex_lock(prog->philos[0].meal_lock);
 	time_check = get_current_time_ms() - prog->philos[i].last_meal;
 	pthread_mutex_unlock(prog->philos[0].meal_lock);
-	while (time_check <= time_die)
-	{
+	while (time_check <= time_die || check_full (prog, i) == 1)
+	{		
 		if (check_full(prog, i))
 		{
-			if(check_philos_full(prog))
+			if(check_philos_full(prog) == 1)
 				return NULL;
 		}
 		if (prog->nb_philos == i + 1)
@@ -108,10 +104,8 @@ void  thread_add(t_philo *philos, t_philo arg, t_program *program ,int ac)
 	while (i < arg.nb_of_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &routine, (void *)&philos[i]))
-		{
 			return(destroy_all(&philos[0]));
-		}
-			usleep(200);
+		usleep(200);
 		i++;
 	}
 	if (pthread_join(check_death, NULL))

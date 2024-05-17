@@ -46,6 +46,7 @@ void destroy_all (t_philo *philo)
 	pthread_mutex_destroy(philo->meal_lock);
 	pthread_mutex_destroy(philo->write_lock);
 	pthread_mutex_destroy(philo->dead_lock);
+	pthread_mutex_destroy(philo->full_lock);
 }
 size_t	get_current_time_ms(void)
 {

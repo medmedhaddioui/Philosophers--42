@@ -25,6 +25,7 @@ int init_forks(t_philo *arg, t_program *program)
     pthread_mutex_init(&program->write_lock, NULL);
     pthread_mutex_init(&program->meal_lock, NULL);
     pthread_mutex_init(&program->dead_lock, NULL);
+    pthread_mutex_init(&program->full_lock, NULL);
     return 0;
 }
 
@@ -65,12 +66,13 @@ void init_philo (t_philo *philos, t_philo arg, t_program *program, int ac)
         philos[i].write_lock = &program->write_lock;
         philos[i].meal_lock = &program->meal_lock;
         philos[i].dead_lock = &program->dead_lock;
+        philos[i].full_lock = &program->full_lock;
         philos[i].died = &program->dead_flag;
-        philos[i].first_fork = &arg.mutexs[i];
+        philos[i].l_fork = &arg.mutexs[i];
         if (i == arg.nb_of_philos - 1)
-            philos[i].second_fork = &arg.mutexs[0];
+            philos[i].r_fork = &arg.mutexs[0];
         else
-            philos[i].second_fork = &arg.mutexs[i + 1];
+            philos[i].r_fork = &arg.mutexs[i + 1];
         i++;
     }
     init_program(program , philos, arg);
