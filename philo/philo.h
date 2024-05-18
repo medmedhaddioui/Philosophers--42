@@ -46,7 +46,7 @@ typedef struct s_philo
 
 	// forks //
 	int				fork_id;
-	pthread_mutex_t	*mutexs;
+	pthread_mutex_t	mutexs[200];
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 

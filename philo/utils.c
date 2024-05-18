@@ -35,21 +35,22 @@ int	ft_atoi(const char *nptr)
 	return (sign * result);
 }
 
-void	destroy_all(t_philo *philo)
+void destroy_all(t_philo *philo)
 {
-	int	i;
+    int i;
 
-	i = 0;
-	while (i < philo->nb_of_philos)
-	{
-		pthread_mutex_destroy(&philo->mutexs[i]);
-		i++;
-	}
-	pthread_mutex_destroy(philo->meal_lock);
-	pthread_mutex_destroy(philo->write_lock);
-	pthread_mutex_destroy(philo->dead_lock);
-	pthread_mutex_destroy(philo->full_lock);
+    i = 0;
+    while (i < philo->nb_of_philos)
+    {
+        pthread_mutex_destroy(&philo->mutexs[i]);
+        i++;
+    }
+    pthread_mutex_destroy(philo->meal_lock);
+    pthread_mutex_destroy(philo->write_lock);
+    pthread_mutex_destroy(philo->dead_lock);
+    pthread_mutex_destroy(philo->full_lock);
 }
+
 
 size_t	get_current_time_ms(void)
 {

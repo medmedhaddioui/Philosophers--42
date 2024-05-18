@@ -17,9 +17,6 @@ int	init_forks(t_philo *arg, t_program *program)
 	int	i;
 
 	i = 0;
-	arg->mutexs = malloc(sizeof(pthread_mutex_t) * arg->nb_of_philos);
-	if (!arg->mutexs)
-		return (1);
 	while (i < arg->nb_of_philos)
 		pthread_mutex_init(&arg->mutexs[i++], NULL);
 	pthread_mutex_init(&program->write_lock, NULL);
@@ -42,7 +39,10 @@ void	init_arg_philo(int i, t_philo *philos, t_philo arg, int ac)
 		philos[i].full = 0;
 	}
 	else
+	{
 		philos[i].flag = EAT_COUNT_OFF;
+		philos[i].full = 0;
+	}
 }
 
 void	init_program(t_program *program, t_philo *philos, t_philo arg)

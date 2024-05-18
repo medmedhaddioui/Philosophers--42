@@ -99,7 +99,6 @@ void	thread_add(t_philo *philos, t_philo arg, t_program *program)
 		if (pthread_create(&philos[i].thread, NULL, &routine,
 				(void *)&philos[i]))
 			return (destroy_all(&philos[0]));
-		usleep(500);
 		i++;
 	}
 	if (pthread_join(check_death, NULL))
