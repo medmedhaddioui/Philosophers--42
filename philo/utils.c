@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:36:19 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/15 12:07:03 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/18 12:40:06 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,11 @@ int	ft_atoi(const char *nptr)
 	}
 	return (sign * result);
 }
-void destroy_all (t_philo *philo)
+
+void	destroy_all(t_philo *philo)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	while (i < philo->nb_of_philos)
 	{
@@ -48,6 +50,7 @@ void destroy_all (t_philo *philo)
 	pthread_mutex_destroy(philo->dead_lock);
 	pthread_mutex_destroy(philo->full_lock);
 }
+
 size_t	get_current_time_ms(void)
 {
 	struct timeval	curr_time;
@@ -56,21 +59,14 @@ size_t	get_current_time_ms(void)
 		write(2, "gettimeofday() error\n", 22);
 	return (curr_time.tv_sec * 1000 + curr_time.tv_usec / 1000);
 }
+
 int	ft_usleep(t_philo *philo, size_t milliseconds)
 {
 	size_t	start;
 
 	start = get_current_time_ms();
-	while (!dead_lock_func(philo) && (get_current_time_ms() - start) < milliseconds)
+	while (!dead_lock_func(philo) && (get_current_time_ms()
+			- start) < milliseconds)
 		usleep(100);
 	return (0);
 }
-int dead_lock_func(t_philo *philo)
-{
-	pthread_mutex_lock(philo->dead_lock);
-	if (*philo->died == 1)
-		return (pthread_mutex_unlock(philo->dead_lock), 1);
-	pthread_mutex_unlock(philo->dead_lock);
-	return 0;
-}
-

@@ -1,11 +1,11 @@
 NAME = philo
 
-SRC = philo.c utils.c init.c  thread.c routine.c
+SRC = philo.c utils.c init.c  thread.c routine.c mutex_locks.c
 
 OBJECT = $(SRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g3
+CFLAGS = -Wall -Wextra -Werror 
 
 all : $(NAME)
 
