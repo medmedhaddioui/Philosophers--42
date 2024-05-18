@@ -35,20 +35,21 @@ int	ft_atoi(const char *nptr)
 	return (sign * result);
 }
 
-void destroy_all(t_philo *philo)
+void destroy_all(t_philo *philo, t_philo arg)
 {
     int i;
 
     i = 0;
-    while (i < philo->nb_of_philos)
+    while (i < arg.nb_of_philos)
     {
-        pthread_mutex_destroy(&philo->mutexs[i]);
+        pthread_mutex_destroy(&arg.mutexs[i]);
         i++;
     }
     pthread_mutex_destroy(philo->meal_lock);
     pthread_mutex_destroy(philo->write_lock);
     pthread_mutex_destroy(philo->dead_lock);
     pthread_mutex_destroy(philo->full_lock);
+	return ;
 }
 
 

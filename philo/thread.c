@@ -91,23 +91,23 @@ void	thread_add(t_philo *philos, t_philo arg, t_program *program)
 
 	i = 0;
 	if (arg.nb_of_philos == 1)
-		return (one_philo(&philos[i]), destroy_all(&philos[0]));
+		return (one_philo(&philos[i]), destroy_all(&philos[0], arg));
 	if (pthread_create(&check_death, NULL, &ft_check_death, (void *)program))
-		return (destroy_all(&philos[0]));
+		return (destroy_all(&philos[0], arg));
 	while (i < arg.nb_of_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &routine,
 				(void *)&philos[i]))
-			return (destroy_all(&philos[0]));
+			return (destroy_all(&philos[0], arg));
 		i++;
 	}
 	if (pthread_join(check_death, NULL))
-		return (destroy_all(&philos[0]));
+		return (destroy_all(&philos[0], arg));
 	i = 0;
 	while (i < arg.nb_of_philos)
 	{
 		if (pthread_join(philos[i++].thread, NULL))
-			return (destroy_all(&philos[0]));
+			return (destroy_all(&philos[0] , arg));
 	}
-	destroy_all(&philos[0]);
+	destroy_all(&philos[0], arg);
 }

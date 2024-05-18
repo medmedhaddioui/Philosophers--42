@@ -83,7 +83,7 @@ void				thread_add(t_philo *philos, t_philo arg,
 						t_program *program);
 void				sleeping(t_philo *philo);
 void				printf_info(char *s, t_philo *philo);
-void				destroy_all(t_philo *philo);
+void destroy_all(t_philo *philo, t_philo arg);
 int					dead_lock_func(t_philo *philo);
 int					check_full_lock(t_program *prog, int i);
 void				even_lock(t_philo *philo, int flag);
