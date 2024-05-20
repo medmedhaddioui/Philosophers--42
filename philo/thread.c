@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:28:53 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/18 12:38:51 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:23:30 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	thread_add(t_philo *philos, t_philo arg, t_program *program)
 	while (i < arg.nb_of_philos)
 	{
 		if (pthread_join(philos[i++].thread, NULL))
-			return (destroy_all(&philos[0] , arg));
+			return (destroy_all(&philos[0], arg));
 	}
 	destroy_all(&philos[0], arg);
 }

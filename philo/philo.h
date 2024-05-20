@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/18 12:40:34 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:24:01 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ typedef struct s_philo
 	pthread_mutex_t	*l_fork;
 	pthread_mutex_t	*r_fork;
 
-	// for data race
+	// locks
 	pthread_mutex_t	*write_lock;
 	pthread_mutex_t	*meal_lock;
 	pthread_mutex_t	*dead_lock;
@@ -83,7 +83,7 @@ void				thread_add(t_philo *philos, t_philo arg,
 						t_program *program);
 void				sleeping(t_philo *philo);
 void				printf_info(char *s, t_philo *philo);
-void destroy_all(t_philo *philo, t_philo arg);
+void				destroy_all(t_philo *philo, t_philo arg);
 int					dead_lock_func(t_philo *philo);
 int					check_full_lock(t_program *prog, int i);
 void				even_lock(t_philo *philo, int flag);

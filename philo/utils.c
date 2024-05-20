@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 13:36:19 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/18 12:40:06 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:23:39 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,23 +35,22 @@ int	ft_atoi(const char *nptr)
 	return (sign * result);
 }
 
-void destroy_all(t_philo *philo, t_philo arg)
+void	destroy_all(t_philo *philo, t_philo arg)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (i < arg.nb_of_philos)
-    {
-        pthread_mutex_destroy(&arg.mutexs[i]);
-        i++;
-    }
-    pthread_mutex_destroy(philo->meal_lock);
-    pthread_mutex_destroy(philo->write_lock);
-    pthread_mutex_destroy(philo->dead_lock);
-    pthread_mutex_destroy(philo->full_lock);
+	i = 0;
+	while (i < arg.nb_of_philos)
+	{
+		pthread_mutex_destroy(&arg.mutexs[i]);
+		i++;
+	}
+	pthread_mutex_destroy(philo->meal_lock);
+	pthread_mutex_destroy(philo->write_lock);
+	pthread_mutex_destroy(philo->dead_lock);
+	pthread_mutex_destroy(philo->full_lock);
 	return ;
 }
-
 
 size_t	get_current_time_ms(void)
 {

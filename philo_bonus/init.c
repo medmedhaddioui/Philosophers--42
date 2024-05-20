@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/19 11:53:24 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:23:00 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,6 @@ void	init_philo(t_philo *philos, t_philo arg, t_program *program, int ac)
 		philos[i].start_time = get_current_time_ms();
 		philos[i].time = 0;
 		philos[i].last_meal = get_current_time_ms();
-		philos[i].write_lock = &program->write_lock;
-		philos[i].meal_lock = &program->meal_lock;
-		philos[i].dead_lock = &program->dead_lock;
-		philos[i].full_lock = &program->full_lock;
 		philos[i].died = &program->dead_flag;
 		i++;
 	}

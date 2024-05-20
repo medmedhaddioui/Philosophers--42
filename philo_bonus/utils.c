@@ -5,12 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/29 13:36:19 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/19 11:53:33 by mel-hadd         ###   ########.fr       */
+/*   Created: 2024/05/19 18:21:48 by mel-hadd          #+#    #+#             */
+/*   Updated: 2024/05/19 18:22:06 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo.h"
+#include "philo_bonus.h"
 
 int	ft_atoi(const char *nptr)
 {
@@ -49,8 +49,7 @@ int	ft_usleep(t_philo *philo, size_t milliseconds)
 	size_t	start;
 
 	start = get_current_time_ms();
-	while (!dead_lock_func(philo) && (get_current_time_ms()
-			- start) < milliseconds)
+	while (get_current_time_ms() - start < milliseconds)
 		usleep(100);
 	return (0);
 }

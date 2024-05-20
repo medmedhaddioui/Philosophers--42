@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/19 11:51:16 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/19 19:00:05 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef struct s_philo
 
 typedef struct s_program
 {
+	pid_t id;
 	int				dead_flag;
 	int				nb_philos;
 	t_philo			*philos;
@@ -61,18 +62,5 @@ int					ft_usleep(t_philo *philo, size_t milliseconds);
 size_t				get_current_time_ms(void);
 void				init_philo(t_philo *philos, t_philo arg, t_program *program,
 						int ac);
-int					init_forks(t_philo *arg, t_program *program);
-void				eating(t_philo *philo);
-void				thread_add(t_philo *philos, t_philo arg,
-						t_program *program);
-void				sleeping(t_philo *philo);
-void				printf_info(char *s, t_philo *philo);
-void destroy_all(t_philo *philo, t_philo arg);
-int					dead_lock_func(t_philo *philo);
-int					check_full_lock(t_program *prog, int i);
-void				even_lock(t_philo *philo, int flag);
-void				odd_lock(t_philo *philo, int flag);
-size_t				time_check_lock(t_program *prog, int i);
-void				thinking(t_philo *philo);
 
 #endif
