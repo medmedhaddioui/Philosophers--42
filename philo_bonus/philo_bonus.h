@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/19 19:00:05 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/20 15:47:19 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <string.h>
 # include <sys/time.h>
 # include <unistd.h>
+#include <semaphore.h>
+
 # define PHILO_LIMTS 200
 # define LOCK 1
 # define UNLOCK 0

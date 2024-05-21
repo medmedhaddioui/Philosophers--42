@@ -1,6 +1,6 @@
 NAME = philo_bonus
 
-SRC = main.c philos.c init.c utils.c
+SRC = main.c philos.c init_bonus.c utils_bonus.c
 
 OBJECT = $(SRC:.c=.o)
 

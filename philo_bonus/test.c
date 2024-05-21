@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philos.c                                           :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/20 17:09:38 by mel-hadd         ###   ########.fr       */
+/*   Created: 2024/05/20 16:31:41 by mel-hadd          #+#    #+#             */
+/*   Updated: 2024/05/20 17:08:42 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void routine (t_philo *philo)
+int	main(void)
 {
-    eating();
-    sleeping();
-    thinking();
-}
+	pid_t	id;
+	int		i;
+    id = 5;
 
-void make_philos (t_philo *philos, t_program *prog , int ac)
-{
-    int i;
-    i = 0;
-    while (i < prog->nb_philos)
-    {
-        prog->id = fork();
-        if (prog->id == 0)
-            routine(&philos[i]);
-        i++;
-    }
+	i = 0;
+	while (i < 3)
+	{
+        id = fork();
+		i++;
+	}
 }
