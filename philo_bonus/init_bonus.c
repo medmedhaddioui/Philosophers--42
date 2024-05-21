@@ -6,12 +6,18 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/20 16:57:18 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/21 16:15:06 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
+void sem_create(t_program *prog, t_philo arg)
+{
+	prog->semaphore = sem_open("semaphore\n", O_CREAT , 0644, arg.nb_of_philos);
+	if (prog->semaphore == SEM_FAILED)
+		ft_exit("Error semaphore fail\n");
+}
 
 void	init_arg_philo(int i, t_philo *philos, t_philo arg, int ac)
 {
@@ -52,6 +58,8 @@ void	init_philo(t_philo *philos, t_philo arg, t_program *program, int ac)
 		philos[i].time = 0;
 		philos[i].last_meal = get_current_time_ms();
 		philos[i].died = &program->dead_flag;
+		philos[i].l_fork = program->semaphore;
+		philos[i].r_fork = program->semaphore;
 		i++;
 	}
 	init_program(program, philos, arg);

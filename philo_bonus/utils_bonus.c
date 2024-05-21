@@ -1,17 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:21:48 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/19 18:22:06 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/21 15:06:19 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-
+void ft_exit(char *s)
+{
+	perror(s);
+	exit(EXIT_FAILURE);
+}
 int	ft_atoi(const char *nptr)
 {
 	int	sign;
@@ -44,7 +48,7 @@ size_t	get_current_time_ms(void)
 	return (curr_time.tv_sec * 1000 + curr_time.tv_usec / 1000);
 }
 
-int	ft_usleep(t_philo *philo, size_t milliseconds)
+int	ft_usleep(size_t milliseconds)
 {
 	size_t	start;
 
