@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/22 14:05:59 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:26:32 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void routine (t_philo *philo, t_program *prog)
     eating(philo, prog);
     sleeping(philo);
     thinking(philo);
+    exit(1);
 }
 
 void sem_cleanup(t_program *prog)
@@ -40,4 +41,5 @@ void philosophers (t_philo *philos, t_program *prog , int ac)
         }
         i++;
     }
+    wait(NULL);
 }
