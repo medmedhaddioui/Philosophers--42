@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:09:02 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/22 13:42:59 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:27:56 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ void	printf_info(char *s, t_philo *philo)
 }
 void eating(t_philo *philo, t_program *prog)
 {
-	(void) prog;
 	sem_wait(philo->forks);
 	printf_info("has taken a fork\n",philo);
+	if (prog->nb_philos == 1)
+		exit(1);   
 	sem_wait(philo->forks);
 	printf_info("has taken a fork\n",philo);
 	printf_info("is eating\n", philo);

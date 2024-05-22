@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 11:52:32 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/22 13:35:35 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:24:37 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,6 @@ int	main(int ac, char **av)
 		return (write(2, "Invalid arguments\n", 19), 1);
 	sem_create(&program,arg);
 	init_philo(philos, arg, &program, ac);
-	philosophers(philos,&program , ac);
+	simulation_philos(philos,&program , ac);
 	return (0);
 }

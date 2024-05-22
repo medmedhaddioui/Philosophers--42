@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:21:48 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/21 15:06:19 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:31:06 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@ void ft_exit(char *s)
 {
 	perror(s);
 	exit(EXIT_FAILURE);
+}
+void sem_cleanup(t_program *prog)
+{
+    if (sem_close(prog->semaphore) == -1)
+        ft_exit("Error closing semaphore");
+    exit(EXIT_FAILURE);
 }
 int	ft_atoi(const char *nptr)
 {

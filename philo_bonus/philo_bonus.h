@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/22 13:28:58 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:50:26 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <unistd.h>
 #include <semaphore.h>
 #include <fcntl.h>
-
+#include <sys/wait.h>
 
 # define PHILO_LIMTS 200
 # define LOCK 1
@@ -75,6 +75,7 @@ void thinking(t_philo *philo);
 void	printf_info(char *s, t_philo *philo);
 void ft_exit(char *s);
 void sem_create(t_program *prog, t_philo arg);
-void philosophers (t_philo *philos, t_program *prog , int ac);
+void simulation_philos (t_philo *philos, t_program *prog , int ac);
+void sem_cleanup(t_program *prog);
 
 #endif

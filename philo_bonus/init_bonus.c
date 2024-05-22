@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/22 13:50:48 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/22 15:20:38 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void sem_create(t_program *prog, t_philo arg)
 {
 	sem_unlink("semaphore");
-	prog->semaphore = sem_open("semaphore", O_CREAT | O_EXCL , 0644, arg.nb_of_philos);
+	prog->semaphore = sem_open("semaphore", O_CREAT | O_EXCL , 0600, arg.nb_of_philos);
 	if (prog->semaphore == SEM_FAILED)
 		ft_exit("Error semaphore fail\n");
 }
