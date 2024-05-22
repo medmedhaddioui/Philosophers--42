@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/21 16:51:02 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/22 14:05:59 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 void routine (t_philo *philo, t_program *prog)
 {
-    // if (philo->philo_id % 2 != 0)
-    //     usleep(1);
     eating(philo, prog);
     sleeping(philo);
     thinking(philo);
+}
+
+void sem_cleanup(t_program *prog)
+ {
+    if (sem_close(prog->semaphore) == -1)
+        ft_exit("Error closing semaphore");
 }
 
 void philosophers (t_philo *philos, t_program *prog , int ac)
@@ -32,9 +36,8 @@ void philosophers (t_philo *philos, t_program *prog , int ac)
         if (prog->id == 0)
         {
             routine(&philos[i], prog);
-            exit(1);
+            sem_cleanup(prog);
         }
         i++;
     }
-    
 }

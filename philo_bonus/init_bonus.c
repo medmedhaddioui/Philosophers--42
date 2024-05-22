@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/21 16:15:06 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:50:48 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void sem_create(t_program *prog, t_philo arg)
 {
-	prog->semaphore = sem_open("semaphore\n", O_CREAT , 0644, arg.nb_of_philos);
+	sem_unlink("semaphore");
+	prog->semaphore = sem_open("semaphore", O_CREAT | O_EXCL , 0644, arg.nb_of_philos);
 	if (prog->semaphore == SEM_FAILED)
 		ft_exit("Error semaphore fail\n");
 }
@@ -58,8 +59,7 @@ void	init_philo(t_philo *philos, t_philo arg, t_program *program, int ac)
 		philos[i].time = 0;
 		philos[i].last_meal = get_current_time_ms();
 		philos[i].died = &program->dead_flag;
-		philos[i].l_fork = program->semaphore;
-		philos[i].r_fork = program->semaphore;
+		philos[i].forks = program->semaphore;
 		i++;
 	}
 	init_program(program, philos, arg);

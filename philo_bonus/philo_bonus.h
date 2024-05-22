@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/21 16:28:03 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:28:58 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,7 @@ typedef struct s_philo
 	int				*died;
 	int				flag;
 	int				full;
-	sem_t			*l_fork;
-	sem_t			*r_fork;
+	sem_t *forks;
 
 }					t_philo;
 

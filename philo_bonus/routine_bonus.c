@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:09:02 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/21 17:15:48 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/22 13:42:59 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,15 @@ void	printf_info(char *s, t_philo *philo)
 }
 void eating(t_philo *philo, t_program *prog)
 {
-	if (sem_wait(prog->semaphore) == -1)
-		ft_exit("Error sem_wait fail\n");
+	(void) prog;
+	sem_wait(philo->forks);
 	printf_info("has taken a fork\n",philo);
-	// sem_wait(philo->r_fork);
-	// printf_info("has taken a fork\n",philo);
+	sem_wait(philo->forks);
+	printf_info("has taken a fork\n",philo);
 	printf_info("is eating\n", philo);
 	ft_usleep(philo->time_to_eat);
-	// sem_post(philo->r_fork);
-	if (sem_post(prog->semaphore))
-		ft_exit("Error sem_post fail\n");
+	sem_post(philo->forks);
+	sem_post(philo->forks);
 }
 void thinking(t_philo *philo)
 {
