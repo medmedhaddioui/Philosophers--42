@@ -19,8 +19,12 @@ void ft_exit(char *s)
 void sem_cleanup(t_program *prog)
 {
     if (sem_close(prog->semaphore) == -1)
-        ft_exit("Error closing semaphore");
-    exit(EXIT_FAILURE);
+		ft_exit("Error closing semaphore");
+	if (sem_close(prog->dead) == -1)
+		ft_exit("Error closing semaphore");
+	if (sem_close(prog->meal_eat) == -1)
+		ft_exit("Error closing semaphore");
+	exit(EXIT_SUCCESS);
 }
 int	ft_atoi(const char *nptr)
 {

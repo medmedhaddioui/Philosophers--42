@@ -12,53 +12,59 @@
 
 #include "philo_bonus.h"
 
-void routine (t_philo *philo, t_program *prog)
+
+void	*ft_check_death(void *data)
 {
-    if (philo->philo_id % 2 != 0)
-        ft_usleep(1);
-    eating(philo, prog);
-    sleeping(philo);
-    thinking(philo);
-}
-
-// void	*ft_check_death(void *data)
-// {
-// 	t_program	*prog;
-// 	int			i;
-// 	size_t		time_die;
-
-// 	prog = data;
-// 	i = 0;
-// 	time_die = prog->philos[0].time_to_die;
-// 	while (time_check_lock(prog, i) <= time_die || check_full_lock(prog,
-// 			i) == 1)
-// 	{
-// 		if (check_full_lock(prog, i))
-// 		{
-// 			if (check_other_philos_full(prog) == 1)
-// 				return (NULL);
-// 		}
-// 		if (prog->nb_philos == i + 1)
-// 			i = -1;
-// 		i++;
-// 	}
-// 	pthread_mutex_lock(prog->philos[0].dead_lock);
-// 	prog->dead_flag = 1;
-// 	pthread_mutex_unlock(prog->philos[0].dead_lock);
-// 	printf("%ld %d is Dead\n", time_die, prog->philos[i].philo_id);
-// 	return (NULL);
-// }
-
-void simulation_philos (t_philo *philos, t_program *prog , int ac)
-{
-    (void) ac;
-    
     int i;
     i = 0;
+    t_program *prog = data;
+    size_t time;
+    sem_wait(prog->meal_eat);
+    time = get_current_time_ms() - prog->philos[i].last_meal;
+    sem_post(prog->meal_eat);
+    while (time <= prog->philos[0].time_to_die)
+    {
+        if (prog->nb_philos == i + 1)
+			i = -1;
+		i++;
+        sem_wait(prog->meal_eat);
+        time = get_current_time_ms() - prog->philos[i].last_meal;
+        sem_post(prog->meal_eat);
+
+    }
+    if (time > prog->philos[i].time_to_die)
+    {
+        printf("Dead\n");
+        sem_wait(prog->dead);
+        exit(EXIT_FAILURE);
+    }
+    return NULL;
+}
+void routine (t_philo *philo, t_program *prog)
+{
+    // pthread_t check_death;
+    // pthread_create(&check_death, NULL, &ft_check_death, (void *) philo);
+    if (philo->philo_id % 2 != 0)
+        ft_usleep(1);
+    while (1)
+    {
+        if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count)
+            exit(EXIT_SUCCESS);
+        eating(philo, prog);
+        sleeping(philo);
+        thinking(philo);
+    }
+}
+
+void simulation_philos (t_philo *philos, t_program *prog)
+{
+    int i;
+    i = 0;
+    pid_t id;
     while (i < prog->nb_philos)
     {
-        prog->id = fork();
-        if (prog->id == 0)
+        id = fork();
+        if (id == 0)
         {
             routine(&philos[i], prog);
             sem_cleanup(prog);
@@ -71,5 +77,4 @@ void simulation_philos (t_philo *philos, t_program *prog , int ac)
         wait(NULL);
         i++;
     }
-   
 }

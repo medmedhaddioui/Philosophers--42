@@ -33,7 +33,6 @@
 typedef struct s_philo
 {
 	// philos data  //
-	pthread_t		thread;
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
@@ -44,18 +43,15 @@ typedef struct s_philo
 	int				eating_count;
 	int				nb_times_to_eat;
 	int				nb_of_philos;
-	int				*died;
 	int				flag;
-	int				full;
 	sem_t *forks;
-
 }					t_philo;
 
 typedef struct s_program
 {
-	pid_t id;
 	sem_t *semaphore ;
-	int				dead_flag;
+	sem_t *meal_eat;
+	sem_t	*dead;
 	int				nb_philos;
 	t_philo			*philos;
 
@@ -75,7 +71,7 @@ void thinking(t_philo *philo);
 void	printf_info(char *s, t_philo *philo);
 void ft_exit(char *s);
 void sem_create(t_program *prog, t_philo arg);
-void simulation_philos (t_philo *philos, t_program *prog , int ac);
+void simulation_philos (t_philo *philos, t_program *prog);
 void sem_cleanup(t_program *prog);
 
 #endif

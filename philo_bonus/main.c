@@ -62,6 +62,6 @@ int	main(int ac, char **av)
 		return (write(2, "Invalid arguments\n", 19), 1);
 	sem_create(&program,arg);
 	init_philo(philos, arg, &program, ac);
-	simulation_philos(philos,&program , ac);
+	simulation_philos(philos,&program);
 	return (0);
 }

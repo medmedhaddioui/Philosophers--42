@@ -21,10 +21,12 @@ void eating(t_philo *philo, t_program *prog)
 {
 	sem_wait(philo->forks);
 	printf_info("has taken a fork\n",philo);
-	if (prog->nb_philos == 1)
-		exit(1);   
 	sem_wait(philo->forks);
 	printf_info("has taken a fork\n",philo);
+	sem_wait(prog->meal_eat);
+	philo->last_meal = get_current_time_ms();
+	philo->eating_count++;
+	sem_post(prog->meal_eat);
 	printf_info("is eating\n", philo);
 	ft_usleep(philo->time_to_eat);
 	sem_post(philo->forks);
