@@ -19,16 +19,16 @@ void	printf_info(char *s, t_philo *philo)
 	printf("%ld %d %s", philo->time, philo->philo_id, s);
     sem_post(philo->write);
 }
-void eating(t_philo *philo, t_program *prog)
+void eating(t_philo *philo)
 {
 	sem_wait(philo->forks);
 	printf_info("has taken a fork\n",philo);
 	sem_wait(philo->forks);
 	printf_info("has taken a fork\n",philo);
-	sem_wait(prog->meal_eat);
+	sem_wait(philo->meal_time);
 	philo->last_meal = get_current_time_ms();
 	philo->eating_count++;
-	sem_post(prog->meal_eat);
+	sem_post(philo->meal_time);
 	printf_info("is eating\n", philo);
 	ft_usleep(philo->time_to_eat);
 	sem_post(philo->forks);

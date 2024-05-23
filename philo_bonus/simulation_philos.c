@@ -15,17 +15,15 @@
 
 void	*ft_check_death(void *data)
 {
-    int i;
-    i = 0;
     t_philo *philo = data;
     while (1)
     {
         sem_wait(philo->dead);
-        if (get_current_time_ms () - philo->last_meal > philo->time_to_die)
+        if (get_current_time_ms () - philo->last_meal > philo->time_to_die )
         {
             printf("%ld %d  is dead\n", philo->time, philo->philo_id);
             sem_wait(philo->write);
-            exit(EXIT_FAILURE);
+            ft_exit2(philo);
         }
         sem_post(philo->dead);
     }
@@ -34,6 +32,7 @@ void	*ft_check_death(void *data)
 }
 void routine (t_philo *philo, t_program *prog)
 {
+    (void) prog;
     pthread_t check_death;
     pthread_create(&check_death, NULL, &ft_check_death, (void *) philo);
     if (philo->philo_id % 2 != 0)
@@ -42,25 +41,26 @@ void routine (t_philo *philo, t_program *prog)
     {
         if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count)
             exit(EXIT_SUCCESS);
-        eating(philo, prog);
+        eating(philo);
         sleeping(philo);
         thinking(philo);
     }
 }
-
 void simulation_philos (t_philo *philos, t_program *prog)
 {
     int i;
     i = 0;
-    pid_t id;
+
     while (i < prog->nb_philos)
     {
-        id = fork();
-        if (id == 0)
+        prog->id = fork();
+        if (prog->id == 0)
         {
             routine(&philos[i], prog);
-            sem_cleanup(prog);
+            printf("hna\n");
+            exit(EXIT_SUCCESS);
         }
+        prog->pids[i] = prog->id;
         i++;
     }
     i = 0;
@@ -69,4 +69,5 @@ void simulation_philos (t_philo *philos, t_program *prog)
         wait(NULL);
         i++;
     }
+    sem_cleanup(&philos[0]);
 }

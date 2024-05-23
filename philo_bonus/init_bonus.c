@@ -15,14 +15,14 @@
 void sem_create(t_program *prog, t_philo arg)
 {
 	sem_unlink("semaphore");
-	sem_unlink("meal_eat");
+	sem_unlink("meal");
 	sem_unlink("dead");
 	sem_unlink("write");
 	prog->semaphore = sem_open("semaphore", O_CREAT | O_EXCL , 0600, arg.nb_of_philos);
 	if (prog->semaphore == SEM_FAILED)
 		ft_exit("Error semaphore fail\n");
-	prog->meal_eat = sem_open("meal_eat", O_CREAT | O_EXCL , 0600, 1);
-	if (prog->meal_eat == SEM_FAILED)
+	prog->sem_meal = sem_open("meal", O_CREAT | O_EXCL , 0600, 1);
+	if (prog->sem_meal == SEM_FAILED)
 		ft_exit("Error semaphore fail\n");
 	prog->sem_dead = sem_open("dead", O_CREAT | O_EXCL , 0600, 1);
 	if (prog->sem_dead == SEM_FAILED)
@@ -51,6 +51,7 @@ void	init_program(t_program *program, t_philo *philos, t_philo arg)
 {
 	program->philos = philos;
 	program->nb_philos = arg.nb_of_philos;
+	program->pids = malloc(sizeof(pid_t) * arg.nb_of_philos);
 }
 
 void	init_philo(t_philo *philos, t_philo arg, t_program *program, int ac)
@@ -67,7 +68,8 @@ void	init_philo(t_philo *philos, t_philo arg, t_program *program, int ac)
 		philos[i].last_meal = get_current_time_ms();
 		philos[i].forks = program->semaphore;
 		philos[i].dead = program->sem_dead;
-		philos[i].write = program->sem_dead;
+		philos[i].write = program->sem_write;
+		philos[i].meal_time = program->sem_meal;
 		i++;
 	}
 	init_program(program, philos, arg);

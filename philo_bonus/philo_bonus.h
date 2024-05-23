@@ -47,12 +47,15 @@ typedef struct s_philo
 	sem_t *forks;
 	sem_t *dead;
 	sem_t *write;
+	sem_t *meal_time;
 }					t_philo;
 
 typedef struct s_program
 {
+	pid_t id;
+	pid_t *pids;
 	sem_t *semaphore ;
-	sem_t *meal_eat;
+	sem_t *sem_meal;
 	sem_t	*sem_dead;
 	sem_t *sem_write;
 	int				nb_philos;
@@ -68,13 +71,13 @@ size_t				get_current_time_ms(void);
 void				init_philo(t_philo *philos, t_philo arg, t_program *program,
 						int ac);
 				
-void eating(t_philo *philo, t_program *prog);
+void eating(t_philo *philo);
 void sleeping(t_philo *philo);
 void thinking(t_philo *philo);
 void	printf_info(char *s, t_philo *philo);
 void ft_exit(char *s);
 void sem_create(t_program *prog, t_philo arg);
 void simulation_philos (t_philo *philos, t_program *prog);
-void sem_cleanup(t_program *prog);
-
+void sem_cleanup(t_philo *philo);
+void ft_exit2(t_philo *philo);
 #endif
