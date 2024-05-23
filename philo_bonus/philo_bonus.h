@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/22 15:50:26 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:07:50 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,16 @@ typedef struct s_philo
 	int				nb_of_philos;
 	int				flag;
 	sem_t *forks;
+	sem_t *dead;
+	sem_t *write;
 }					t_philo;
 
 typedef struct s_program
 {
 	sem_t *semaphore ;
 	sem_t *meal_eat;
-	sem_t	*dead;
+	sem_t	*sem_dead;
+	sem_t *sem_write;
 	int				nb_philos;
 	t_philo			*philos;
 

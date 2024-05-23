@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/22 15:31:00 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:11:03 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,33 +17,25 @@ void	*ft_check_death(void *data)
 {
     int i;
     i = 0;
-    t_program *prog = data;
-    size_t time;
-    sem_wait(prog->meal_eat);
-    time = get_current_time_ms() - prog->philos[i].last_meal;
-    sem_post(prog->meal_eat);
-    while (time <= prog->philos[0].time_to_die)
+    t_philo *philo = data;
+    while (1)
     {
-        if (prog->nb_philos == i + 1)
-			i = -1;
-		i++;
-        sem_wait(prog->meal_eat);
-        time = get_current_time_ms() - prog->philos[i].last_meal;
-        sem_post(prog->meal_eat);
+        sem_wait(philo->dead);
+        if (get_current_time_ms () - philo->last_meal > philo->time_to_die)
+        {
+            printf("%ld %d  is dead\n", philo->time, philo->philo_id);
+            sem_wait(philo->write);
+            exit(EXIT_FAILURE);
+        }
+        sem_post(philo->dead);
+    }
 
-    }
-    if (time > prog->philos[i].time_to_die)
-    {
-        printf("Dead\n");
-        sem_wait(prog->dead);
-        exit(EXIT_FAILURE);
-    }
     return NULL;
 }
 void routine (t_philo *philo, t_program *prog)
 {
-    // pthread_t check_death;
-    // pthread_create(&check_death, NULL, &ft_check_death, (void *) philo);
+    pthread_t check_death;
+    pthread_create(&check_death, NULL, &ft_check_death, (void *) philo);
     if (philo->philo_id % 2 != 0)
         ft_usleep(1);
     while (1)

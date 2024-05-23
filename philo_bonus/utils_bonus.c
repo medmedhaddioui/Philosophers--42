@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:21:48 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/22 15:31:06 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:09:11 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ void sem_cleanup(t_program *prog)
 {
     if (sem_close(prog->semaphore) == -1)
 		ft_exit("Error closing semaphore");
-	if (sem_close(prog->dead) == -1)
+	if (sem_close(prog->sem_dead) == -1)
 		ft_exit("Error closing semaphore");
 	if (sem_close(prog->meal_eat) == -1)
+		ft_exit("Error closing semaphore");
+	if (sem_close(prog->sem_write) == -1)
 		ft_exit("Error closing semaphore");
 	exit(EXIT_SUCCESS);
 }

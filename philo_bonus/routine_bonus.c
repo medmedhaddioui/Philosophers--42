@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:09:02 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/22 15:27:56 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/23 12:09:56 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	printf_info(char *s, t_philo *philo)
 {
+    sem_wait(philo->write);
 	philo->time = get_current_time_ms() - philo->start_time;
 	printf("%ld %d %s", philo->time, philo->philo_id, s);
+    sem_post(philo->write);
 }
 void eating(t_philo *philo, t_program *prog)
 {
