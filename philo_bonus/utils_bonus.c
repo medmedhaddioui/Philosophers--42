@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:21:48 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/23 12:09:11 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:55:44 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,10 @@ void ft_exit(char *s)
 }
 void ft_exit2(t_philo *philo)
 {
+	int i;
+	i = 1;
 	sem_cleanup(philo);
-	// int i;
-	// i = 0;
-	// while (i < philo->nb_of_philos)
-	// {
-	// 	kill();
-	// 	i++;
-	// }
-	exit(EXIT_SUCCESS);
+	exit(EXIT_FAILURE);
 }
 void sem_cleanup(t_philo *philo)
 {
@@ -38,7 +33,6 @@ void sem_cleanup(t_philo *philo)
 		ft_exit("Error closing semaphore");
 	if (sem_close(philo->write) == -1)
 		ft_exit("Error closing semaphore");
-	exit(EXIT_SUCCESS);
 }
 int	ft_atoi(const char *nptr)
 {

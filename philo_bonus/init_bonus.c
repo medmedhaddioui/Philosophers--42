@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/23 12:08:56 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/23 20:27:51 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	init_arg_philo(int i, t_philo *philos, t_philo arg, int ac)
 	philos[i].time_to_die = arg.time_to_die;
 	philos[i].time_to_eat = arg.time_to_eat;
 	philos[i].time_to_sleep = arg.time_to_sleep;
+	philos[i].nb_of_philos = arg.nb_of_philos;
 	if (ac == 6)
 	{
 		philos[i].nb_times_to_eat = arg.nb_times_to_eat;
@@ -49,9 +50,9 @@ void	init_arg_philo(int i, t_philo *philos, t_philo arg, int ac)
 
 void	init_program(t_program *program, t_philo *philos, t_philo arg)
 {
+	program->pids = malloc(sizeof(pid_t) * arg.nb_of_philos);
 	program->philos = philos;
 	program->nb_philos = arg.nb_of_philos;
-	program->pids = malloc(sizeof(pid_t) * arg.nb_of_philos);
 }
 
 void	init_philo(t_philo *philos, t_philo arg, t_program *program, int ac)
@@ -63,9 +64,9 @@ void	init_philo(t_philo *philos, t_philo arg, t_program *program, int ac)
 	{
 		init_arg_philo(i, philos, arg, ac);
 		philos[i].eating_count = 0;
-		philos[i].start_time = get_current_time_ms();
 		philos[i].time = 0;
 		philos[i].last_meal = get_current_time_ms();
+		philos[i].start_time = get_current_time_ms();
 		philos[i].forks = program->semaphore;
 		philos[i].dead = program->sem_dead;
 		philos[i].write = program->sem_write;

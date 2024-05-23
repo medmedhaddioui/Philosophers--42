@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/23 12:11:03 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/23 20:36:54 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	*ft_check_death(void *data)
         sem_wait(philo->dead);
         if (get_current_time_ms () - philo->last_meal > philo->time_to_die )
         {
-            printf("%ld %d  is dead\n", philo->time, philo->philo_id);
             sem_wait(philo->write);
+            printf("%ld %d is dead\n", philo->time, philo->philo_id);
             ft_exit2(philo);
         }
         sem_post(philo->dead);
@@ -30,9 +30,8 @@ void	*ft_check_death(void *data)
 
     return NULL;
 }
-void routine (t_philo *philo, t_program *prog)
+void routine (t_philo *philo)
 {
-    (void) prog;
     pthread_t check_death;
     pthread_create(&check_death, NULL, &ft_check_death, (void *) philo);
     if (philo->philo_id % 2 != 0)
@@ -50,24 +49,30 @@ void simulation_philos (t_philo *philos, t_program *prog)
 {
     int i;
     i = 0;
-
     while (i < prog->nb_philos)
     {
         prog->id = fork();
         if (prog->id == 0)
         {
-            routine(&philos[i], prog);
-            printf("hna\n");
+            routine(&philos[i]);
             exit(EXIT_SUCCESS);
         }
         prog->pids[i] = prog->id;
         i++;
     }
-    i = 0;
-    while (i < prog->nb_philos)
-    {
-        wait(NULL);
-        i++;
-    }
+    i = -1;
+    int	status;
+	while (wait(&status) > 0)
+	{
+		if (WEXITSTATUS(status) == 1)
+		{
+            i = 0;
+		    while (i < prog->nb_philos)
+	        {
+		        kill(prog->pids[i], SIGKILL);
+		        i++;
+            }
+		}
+	}
     sem_cleanup(&philos[0]);
 }

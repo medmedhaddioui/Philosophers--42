@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/23 12:07:50 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/23 18:05:27 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 #include <semaphore.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+#include <signal.h>
+
 
 # define PHILO_LIMTS 200
 # define LOCK 1
@@ -36,8 +38,8 @@ typedef struct s_philo
 	size_t			time_to_die;
 	size_t			time_to_eat;
 	size_t			time_to_sleep;
-	size_t			start_time;
 	size_t			last_meal;
+	size_t			start_time;
 	size_t			time;
 	int				philo_id;
 	int				eating_count;
@@ -48,13 +50,14 @@ typedef struct s_philo
 	sem_t *dead;
 	sem_t *write;
 	sem_t *meal_time;
+	pid_t *pids2;
 }					t_philo;
 
 typedef struct s_program
 {
 	pid_t id;
 	pid_t *pids;
-	sem_t *semaphore ;
+	sem_t *semaphore;
 	sem_t *sem_meal;
 	sem_t	*sem_dead;
 	sem_t *sem_write;
