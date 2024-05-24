@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:09:02 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/23 12:09:56 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:06:02 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,19 +27,20 @@ void eating(t_philo *philo)
 	printf_info("has taken a fork\n",philo);
 	sem_wait(philo->meal_time);
 	philo->last_meal = get_current_time_ms();
-	philo->eating_count++;
+	if (philo->flag == EAT_COUNT_ON)
+		philo->eating_count++;
 	sem_post(philo->meal_time);
 	printf_info("is eating\n", philo);
 	ft_usleep(philo->time_to_eat);
 	sem_post(philo->forks);
 	sem_post(philo->forks);
 }
-void thinking(t_philo *philo)
+void sleeping(t_philo *philo)
 {
 	printf_info("is sleeping\n", philo);
 	ft_usleep(philo->time_to_sleep);
 }
-void sleeping(t_philo *philo)
+void thinking(t_philo *philo)
 {
 	printf_info("is thinking\n", philo);
 }

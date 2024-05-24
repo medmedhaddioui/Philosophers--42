@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:21:48 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/23 18:55:44 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/24 19:44:56 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 void ft_exit(char *s)
 {
 	perror(s);
-	exit(EXIT_FAILURE);
-}
-void ft_exit2(t_philo *philo)
-{
-	int i;
-	i = 1;
-	sem_cleanup(philo);
 	exit(EXIT_FAILURE);
 }
 void sem_cleanup(t_philo *philo)
@@ -34,6 +27,7 @@ void sem_cleanup(t_philo *philo)
 	if (sem_close(philo->write) == -1)
 		ft_exit("Error closing semaphore");
 }
+
 int	ft_atoi(const char *nptr)
 {
 	int	sign;
@@ -69,7 +63,6 @@ size_t	get_current_time_ms(void)
 int	ft_usleep(size_t milliseconds)
 {
 	size_t	start;
-
 	start = get_current_time_ms();
 	while (get_current_time_ms() - start < milliseconds)
 		usleep(100);

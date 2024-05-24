@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/23 20:36:54 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:05:33 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,27 @@
 void	*ft_check_death(void *data)
 {
     t_philo *philo = data;
+    size_t time_now;
     while (1)
     {
         sem_wait(philo->dead);
-        if (get_current_time_ms () - philo->last_meal > philo->time_to_die )
+        sem_wait(philo->meal_time);
+        time_now =  get_current_time_ms () - philo->last_meal;
+        sem_post(philo->meal_time);
+        if (time_now > philo->time_to_die )
         {
             sem_wait(philo->write);
             printf("%ld %d is dead\n", philo->time, philo->philo_id);
-            ft_exit2(philo);
+            exit(EXIT_FAILURE);
         }
         sem_post(philo->dead);
     }
-
     return NULL;
 }
 void routine (t_philo *philo)
 {
     pthread_t check_death;
     pthread_create(&check_death, NULL, &ft_check_death, (void *) philo);
-    if (philo->philo_id % 2 != 0)
-        ft_usleep(1);
     while (1)
     {
         if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count)
@@ -60,11 +61,10 @@ void simulation_philos (t_philo *philos, t_program *prog)
         prog->pids[i] = prog->id;
         i++;
     }
-    i = -1;
     int	status;
 	while (wait(&status) > 0)
-	{
-		if (WEXITSTATUS(status) == 1)
+    {
+	    if (WEXITSTATUS(status) == 1)
 		{
             i = 0;
 		    while (i < prog->nb_philos)

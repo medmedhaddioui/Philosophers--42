@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/23 18:05:27 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:06:38 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_philo
 	sem_t *dead;
 	sem_t *write;
 	sem_t *meal_time;
-	pid_t *pids2;
 }					t_philo;
 
 typedef struct s_program
@@ -69,7 +68,6 @@ typedef struct s_program
 int					check_arg(int argc, char **argv);
 int					check_arg_2(t_philo *arg, int ac, char **av);
 int					ft_atoi(const char *nptr);
-int					ft_usleep(size_t milliseconds);
 size_t				get_current_time_ms(void);
 void				init_philo(t_philo *philos, t_philo arg, t_program *program,
 						int ac);
@@ -82,5 +80,6 @@ void ft_exit(char *s);
 void sem_create(t_program *prog, t_philo arg);
 void simulation_philos (t_philo *philos, t_program *prog);
 void sem_cleanup(t_philo *philo);
-void ft_exit2(t_philo *philo);
+int	ft_usleep(size_t milliseconds);
+
 #endif
