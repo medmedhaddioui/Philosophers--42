@@ -6,28 +6,29 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/24 20:06:17 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/25 12:52:56 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void sem_create(t_program *prog, t_philo arg)
+void	sem_create(t_program *prog, t_philo arg)
 {
 	sem_unlink("semaphore");
 	sem_unlink("meal");
 	sem_unlink("dead");
 	sem_unlink("write");
-	prog->semaphore = sem_open("semaphore", O_CREAT | O_EXCL , 0600, arg.nb_of_philos);
+	prog->semaphore = sem_open("semaphore", O_CREAT | O_EXCL, 0600,
+			arg.nb_of_philos);
 	if (prog->semaphore == SEM_FAILED)
 		ft_exit("Error semaphore fail\n");
-	prog->sem_meal = sem_open("meal", O_CREAT | O_EXCL , 0600, 1);
+	prog->sem_meal = sem_open("meal", O_CREAT | O_EXCL, 0600, 1);
 	if (prog->sem_meal == SEM_FAILED)
 		ft_exit("Error semaphore fail\n");
-	prog->sem_dead = sem_open("dead", O_CREAT | O_EXCL , 0600, 1);
+	prog->sem_dead = sem_open("dead", O_CREAT | O_EXCL, 0600, 1);
 	if (prog->sem_dead == SEM_FAILED)
 		ft_exit("Error semaphore fail\n");
-	prog->sem_write = sem_open("write", O_CREAT | O_EXCL , 0600, 1);
+	prog->sem_write = sem_open("write", O_CREAT | O_EXCL, 0600, 1);
 	if (prog->sem_write == SEM_FAILED)
 		ft_exit("Error semaphore fail\n");
 }

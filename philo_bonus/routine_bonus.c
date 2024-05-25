@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:09:02 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/24 20:06:02 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/25 12:53:12 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,18 @@
 
 void	printf_info(char *s, t_philo *philo)
 {
-    sem_wait(philo->write);
+	sem_wait(philo->write);
 	philo->time = get_current_time_ms() - philo->start_time;
 	printf("%ld %d %s", philo->time, philo->philo_id, s);
-    sem_post(philo->write);
+	sem_post(philo->write);
 }
-void eating(t_philo *philo)
+
+void	eating(t_philo *philo)
 {
 	sem_wait(philo->forks);
-	printf_info("has taken a fork\n",philo);
+	printf_info("has taken a fork\n", philo);
 	sem_wait(philo->forks);
-	printf_info("has taken a fork\n",philo);
+	printf_info("has taken a fork\n", philo);
 	sem_wait(philo->meal_time);
 	philo->last_meal = get_current_time_ms();
 	if (philo->flag == EAT_COUNT_ON)
@@ -35,12 +36,14 @@ void eating(t_philo *philo)
 	sem_post(philo->forks);
 	sem_post(philo->forks);
 }
-void sleeping(t_philo *philo)
+
+void	sleeping(t_philo *philo)
 {
 	printf_info("is sleeping\n", philo);
 	ft_usleep(philo->time_to_sleep);
 }
-void thinking(t_philo *philo)
+
+void	thinking(t_philo *philo)
 {
 	printf_info("is thinking\n", philo);
 }

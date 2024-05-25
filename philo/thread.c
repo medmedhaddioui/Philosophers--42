@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:28:53 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/19 18:23:30 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/25 12:51:29 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	one_philo(t_philo *philo)
 {
 	pthread_mutex_lock(philo->l_fork);
 	printf("%ld %d has taken a fork\n", philo->time, philo->philo_id);
+	ft_usleep(philo, philo->time_to_die);
 	printf("%ld %d is Dead\n", philo->time_to_die, philo->philo_id);
 	pthread_mutex_unlock(philo->l_fork);
 }
@@ -49,7 +50,7 @@ int	check_other_philos_full(t_program *prog)
 	i = 0;
 	while (i < prog->nb_philos)
 	{
-		if (check_full_lock(prog, i) == 0)
+		if (!check_full_lock(prog, i))
 			return (0);
 		i++;
 	}
@@ -65,8 +66,7 @@ void	*ft_check_death(void *data)
 	prog = data;
 	i = 0;
 	time_die = prog->philos[0].time_to_die;
-	while (time_check_lock(prog, i) <= time_die || check_full_lock(prog,
-			i) == 1)
+	while (time_check_lock(prog, i) <= time_die || check_full_lock(prog, i))
 	{
 		if (check_full_lock(prog, i))
 		{
@@ -92,21 +92,22 @@ void	thread_add(t_philo *philos, t_philo arg, t_program *program)
 	i = 0;
 	if (arg.nb_of_philos == 1)
 		return (one_philo(&philos[i]), destroy_all(&philos[0], arg));
-	if (pthread_create(&check_death, NULL, &ft_check_death, (void *)program))
+	if (pthread_create(&check_death, NULL, &ft_check_death,
+			(void *)program) != 0)
 		return (destroy_all(&philos[0], arg));
 	while (i < arg.nb_of_philos)
 	{
 		if (pthread_create(&philos[i].thread, NULL, &routine,
-				(void *)&philos[i]))
+				(void *)&philos[i]) != 0)
 			return (destroy_all(&philos[0], arg));
 		i++;
 	}
-	if (pthread_join(check_death, NULL))
+	if (pthread_join(check_death, NULL) != 0)
 		return (destroy_all(&philos[0], arg));
 	i = 0;
 	while (i < arg.nb_of_philos)
 	{
-		if (pthread_join(philos[i++].thread, NULL))
+		if (pthread_join(philos[i++].thread, NULL) != 0)
 			return (destroy_all(&philos[0], arg));
 	}
 	destroy_all(&philos[0], arg);

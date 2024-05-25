@@ -6,19 +6,21 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:21:48 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/24 19:44:56 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/25 12:53:52 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
-void ft_exit(char *s)
+
+void	ft_exit(char *s)
 {
 	perror(s);
 	exit(EXIT_FAILURE);
 }
-void sem_cleanup(t_program *prog)
+
+void	sem_cleanup(t_program *prog)
 {
-    if (sem_close(prog->semaphore) == -1)
+	if (sem_close(prog->semaphore) == -1)
 		ft_exit("Error closing semaphore");
 	if (sem_close(prog->sem_meal) == -1)
 		ft_exit("Error closing semaphore");
@@ -27,7 +29,6 @@ void sem_cleanup(t_program *prog)
 	if (sem_close(prog->sem_write) == -1)
 		ft_exit("Error closing semaphore");
 	free(prog->pids);
-
 }
 
 int	ft_atoi(const char *nptr)
@@ -48,6 +49,8 @@ int	ft_atoi(const char *nptr)
 	while (*nptr >= '0' && *nptr <= '9')
 	{
 		result = result * 10 + (*nptr - '0');
+		if (result > INT_MAX || result < INT_MIN)
+			return (0);
 		nptr++;
 	}
 	return (sign * result);
@@ -65,6 +68,7 @@ size_t	get_current_time_ms(void)
 int	ft_usleep(size_t milliseconds)
 {
 	size_t	start;
+
 	start = get_current_time_ms();
 	while (get_current_time_ms() - start < milliseconds)
 		usleep(100);
