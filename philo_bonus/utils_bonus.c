@@ -16,16 +16,18 @@ void ft_exit(char *s)
 	perror(s);
 	exit(EXIT_FAILURE);
 }
-void sem_cleanup(t_philo *philo)
+void sem_cleanup(t_program *prog)
 {
-    if (sem_close(philo->forks) == -1)
+    if (sem_close(prog->semaphore) == -1)
 		ft_exit("Error closing semaphore");
-	if (sem_close(philo->dead) == -1)
+	if (sem_close(prog->sem_meal) == -1)
 		ft_exit("Error closing semaphore");
-	if (sem_close(philo->meal_time) == -1)
+	if (sem_close(prog->sem_dead) == -1)
 		ft_exit("Error closing semaphore");
-	if (sem_close(philo->write) == -1)
+	if (sem_close(prog->sem_write) == -1)
 		ft_exit("Error closing semaphore");
+	free(prog->pids);
+
 }
 
 int	ft_atoi(const char *nptr)

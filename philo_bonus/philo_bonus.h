@@ -79,7 +79,7 @@ void	printf_info(char *s, t_philo *philo);
 void ft_exit(char *s);
 void sem_create(t_program *prog, t_philo arg);
 void simulation_philos (t_philo *philos, t_program *prog);
-void sem_cleanup(t_philo *philo);
+void sem_cleanup(t_program *prog);
 int	ft_usleep(size_t milliseconds);
 
 #endif
