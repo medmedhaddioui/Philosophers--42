@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/24 20:05:33 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/25 11:35:10 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void routine (t_philo *philo)
 {
     pthread_t check_death;
     pthread_create(&check_death, NULL, &ft_check_death, (void *) philo);
+	pthread_detach(check_death);
     while (1)
     {
         if (philo->flag == EAT_COUNT_ON && philo->nb_times_to_eat == philo->eating_count)
