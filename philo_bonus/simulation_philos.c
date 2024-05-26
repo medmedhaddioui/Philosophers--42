@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/25 12:55:25 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/26 14:45:49 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	*ft_check_death(void *data)
 			exit(EXIT_FAILURE);
 		}
 		sem_post(philo->dead);
-		usleep(5000);
+		usleep(500);
 	}
 	return (NULL);
 }
