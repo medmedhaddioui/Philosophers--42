@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:21:48 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/25 12:53:52 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/26 22:11:33 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,24 @@ void	ft_exit(char *s)
 	perror(s);
 	exit(EXIT_FAILURE);
 }
-
-void	sem_cleanup(t_program *prog)
+void ft_error (char *s, t_philo *philo)
 {
-	if (sem_close(prog->semaphore) == -1)
+	perror(s);
+	sem_cleanup(philo,ON);
+	exit(EXIT_FAILURE);
+}
+void	sem_cleanup(t_philo *philo, int flag)
+{
+	if (sem_close(philo->forks) == -1)
 		ft_exit("Error closing semaphore");
-	if (sem_close(prog->sem_meal) == -1)
+	if (sem_close(philo->meal_time) == -1)
 		ft_exit("Error closing semaphore");
-	if (sem_close(prog->sem_dead) == -1)
+	if (sem_close(philo->dead) == -1)
 		ft_exit("Error closing semaphore");
-	if (sem_close(prog->sem_write) == -1)
+	if (sem_close(philo->write) == -1)
 		ft_exit("Error closing semaphore");
-	free(prog->pids);
+	if (flag == ON)
+		free(philo->pids2);
 }
 
 int	ft_atoi(const char *nptr)

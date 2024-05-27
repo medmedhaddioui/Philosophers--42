@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/25 12:52:48 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/26 22:10:55 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define EAT_COUNT_ON 1
 # define EAT_COUNT_OFF -1
 # define FULL 2
+# define ON 1
+# define OFF 0
 
 typedef struct s_philo
 {
@@ -50,6 +52,7 @@ typedef struct s_philo
 	sem_t	*dead;
 	sem_t	*write;
 	sem_t	*meal_time;
+	pid_t *pids2;
 }			t_philo;
 
 typedef struct s_program
@@ -79,7 +82,8 @@ void		printf_info(char *s, t_philo *philo);
 void		ft_exit(char *s);
 void		sem_create(t_program *prog, t_philo arg);
 void		simulation_philos(t_philo *philos, t_program *prog);
-void		sem_cleanup(t_program *prog);
+void	sem_cleanup(t_philo *philo, int flag);
 int			ft_usleep(size_t milliseconds);
+void ft_error (char *s, t_philo *philo);
 
 #endif

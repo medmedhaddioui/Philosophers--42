@@ -5,7 +5,8 @@ SRC = main.c simulation_philos.c init_bonus.c utils_bonus.c routine_bonus.c
 OBJECT = $(SRC:.c=.o)
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+
+CFLAGS = -Wall -Wextra -Werror 
 
 all : $(NAME)
 

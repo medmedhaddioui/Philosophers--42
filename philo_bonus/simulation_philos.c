@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/26 14:45:49 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/26 22:11:17 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	*ft_check_death(void *data)
 		{
 			sem_wait(philo->write);
 			printf("%ld %d is dead\n", philo->time, philo->philo_id);
+			sem_cleanup(philo,ON);
 			exit(EXIT_FAILURE);
 		}
 		sem_post(philo->dead);
@@ -41,18 +42,21 @@ void	routine(t_philo *philo)
 	pthread_t	check_death;
 
 	if (pthread_create(&check_death, NULL, &ft_check_death, (void *)philo) != 0)
-		ft_exit("Error pthread_create\n");
-	if (pthread_detach(check_death) != 0)
-		ft_exit("Error pthread_detach\n");
+		ft_error("Error pthread_create\n",philo);
 	while (1)
 	{
 		if (philo->flag == EAT_COUNT_ON
 			&& philo->nb_times_to_eat == philo->eating_count)
-			exit(EXIT_SUCCESS);
+			{	
+				sem_cleanup(philo,ON);
+				exit(EXIT_SUCCESS);
+			}
 		eating(philo);
 		sleeping(philo);
 		thinking(philo);
 	}
+	if (pthread_join(check_death,NULL) != 0)
+		ft_error("Error pthread_join\n",philo);
 }
 
 void	simulation_philos(t_philo *philos, t_program *prog)
@@ -80,5 +84,6 @@ void	simulation_philos(t_philo *philos, t_program *prog)
 				kill(prog->pids[i++], SIGKILL);
 		}
 	}
-	sem_cleanup(prog);
+	sem_cleanup(&philos[0], OFF);
+	free(prog->pids);
 }
