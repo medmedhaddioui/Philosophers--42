@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/26 22:04:28 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:51:20 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	init_philo(t_philo *philos, t_philo arg, t_program *program, int ac)
 	int	i;
 
 	i = 0;
-	program->pids = malloc(sizeof(pid_t) * arg.nb_of_philos);
 	while (i < arg.nb_of_philos)
 	{
 		init_arg_philo(i, philos, arg, ac);
@@ -72,7 +71,6 @@ void	init_philo(t_philo *philos, t_philo arg, t_program *program, int ac)
 		philos[i].dead = program->sem_dead;
 		philos[i].write = program->sem_write;
 		philos[i].meal_time = program->sem_meal;
-		philos[i].pids2 = program->pids;
 		i++;
 	}
 	init_program(program, philos, arg);

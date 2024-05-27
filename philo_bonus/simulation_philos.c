@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/26 22:11:17 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/27 15:53:13 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	*ft_check_death(void *data)
 		{
 			sem_wait(philo->write);
 			printf("%ld %d is dead\n", philo->time, philo->philo_id);
-			sem_cleanup(philo,ON);
+			sem_cleanup(philo);
 			exit(EXIT_FAILURE);
 		}
 		sem_post(philo->dead);
@@ -48,7 +48,7 @@ void	routine(t_philo *philo)
 		if (philo->flag == EAT_COUNT_ON
 			&& philo->nb_times_to_eat == philo->eating_count)
 			{	
-				sem_cleanup(philo,ON);
+				sem_cleanup(philo);
 				exit(EXIT_SUCCESS);
 			}
 		eating(philo);
@@ -63,7 +63,7 @@ void	simulation_philos(t_philo *philos, t_program *prog)
 {
 	int	i;
 	int	status;
-
+	pid_t pids[PHILO_LIMTS];
 	i = 0;
 	while (i < prog->nb_philos)
 	{
@@ -72,7 +72,7 @@ void	simulation_philos(t_philo *philos, t_program *prog)
 			ft_exit("Error fork\n");
 		if (prog->id == 0)
 			routine(&philos[i]);
-		prog->pids[i] = prog->id;
+		pids[i] = prog->id;
 		i++;
 	}
 	while (wait(&status) > 0)
@@ -81,9 +81,8 @@ void	simulation_philos(t_philo *philos, t_program *prog)
 		{
 			i = 0;
 			while (i < prog->nb_philos)
-				kill(prog->pids[i++], SIGKILL);
+				kill(pids[i++], SIGKILL);
 		}
 	}
-	sem_cleanup(&philos[0], OFF);
-	free(prog->pids);
+	sem_cleanup(&philos[0]);
 }
