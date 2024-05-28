@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 17:00:07 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/27 15:51:20 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/28 13:30:38 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	sem_create(t_program *prog, t_philo arg)
 	sem_unlink("meal");
 	sem_unlink("dead");
 	sem_unlink("write");
+	sem_unlink("flag");
 	prog->semaphore = sem_open("semaphore", O_CREAT | O_EXCL, 0600,
 			arg.nb_of_philos);
 	if (prog->semaphore == SEM_FAILED)
@@ -30,6 +31,9 @@ void	sem_create(t_program *prog, t_philo arg)
 		ft_exit("Error semaphore fail\n");
 	prog->sem_write = sem_open("write", O_CREAT | O_EXCL, 0600, 1);
 	if (prog->sem_write == SEM_FAILED)
+		ft_exit("Error semaphore fail\n");
+	prog->sem_flag = sem_open("flag", O_CREAT | O_EXCL, 0600, 1);
+	if (prog->sem_flag == SEM_FAILED)
 		ft_exit("Error semaphore fail\n");
 }
 
@@ -71,6 +75,8 @@ void	init_philo(t_philo *philos, t_philo arg, t_program *program, int ac)
 		philos[i].dead = program->sem_dead;
 		philos[i].write = program->sem_write;
 		philos[i].meal_time = program->sem_meal;
+		philos[i].dead_flag = 0;
+		philos[i].sem_flag = program->sem_flag;
 		i++;
 	}
 	init_program(program, philos, arg);

@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:09:02 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/25 12:53:12 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/28 13:38:16 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 
 void	printf_info(char *s, t_philo *philo)
 {
+	int *value_sem;
+	value_sem = (int * )philo->write;
+	if (*value_sem == 0)
+		return ;
 	sem_wait(philo->write);
 	philo->time = get_current_time_ms() - philo->start_time;
 	printf("%ld %d %s", philo->time, philo->philo_id, s);
