@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 14:09:02 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/28 14:42:59 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/28 22:10:25 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void	printf_info(char *s, t_philo *philo)
 {
 	int	*value_sem;
-	int d_flag;
+	int	d_flag;
+
 	sem_wait(philo->sem_flag);
 	d_flag = philo->dead_flag;
 	sem_post(philo->sem_flag);

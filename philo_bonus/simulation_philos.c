@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/28 14:16:36 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/28 22:37:31 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int	check_time(t_philo *philo, size_t time_now)
 {
 	if (time_now > philo->time_to_die)
 	{
-		sem_wait(philo->write);
-		printf("%ld %d is dead\n", time_now, philo->philo_id);
-		sem_post(philo->dead);
 		sem_wait(philo->sem_flag);
 		philo->dead_flag = 1;
 		sem_post(philo->sem_flag);
+		sem_wait(philo->write);
+		sem_post(philo->dead);
+		printf("%ld %d is dead\n", time_now, philo->philo_id);
 		return (1);
 	}
 	else
@@ -49,8 +49,8 @@ void	*ft_check_death(void *data)
 			if (eating_done == philo->nb_times_to_eat)
 				return (sem_post(philo->dead), NULL);
 		}
+		usleep(1500);
 		sem_post(philo->dead);
-		usleep(300);
 	}
 	return (NULL);
 }
@@ -97,8 +97,6 @@ void	routine(t_philo *philo)
 		sleeping(philo);
 		thinking(philo);
 	}
-	if (pthread_join(check_death, NULL) != 0)
-		ft_error("Error pthread_join\n", philo);
 }
 
 void	simulation_philos(t_philo *philos, t_program *prog)
