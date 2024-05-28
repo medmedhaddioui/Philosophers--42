@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 16:28:18 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/28 13:29:47 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:15:45 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 # define FULL 2
 # define ON 1
 # define OFF 0
+# define EAT_CHECK 0
+# define DIE_CHECK 1
 
 typedef struct s_philo
 {
@@ -52,8 +54,8 @@ typedef struct s_philo
 	sem_t	*dead;
 	sem_t	*write;
 	sem_t	*meal_time;
-	sem_t *sem_flag;
-	int dead_flag;
+	sem_t	*sem_flag;
+	int		dead_flag;
 }			t_philo;
 
 typedef struct s_program
@@ -63,7 +65,7 @@ typedef struct s_program
 	sem_t	*sem_meal;
 	sem_t	*sem_dead;
 	sem_t	*sem_write;
-	sem_t 	*sem_flag;
+	sem_t	*sem_flag;
 	int		nb_philos;
 	t_philo	*philos;
 
@@ -83,8 +85,8 @@ void		printf_info(char *s, t_philo *philo);
 void		ft_exit(char *s);
 void		sem_create(t_program *prog, t_philo arg);
 void		simulation_philos(t_philo *philos, t_program *prog);
-void	sem_cleanup(t_philo *philo);
+void		sem_cleanup(t_philo *philo);
 int			ft_usleep(size_t milliseconds);
-void ft_error (char *s, t_philo *philo);
+void		ft_error(char *s, t_philo *philo);
 
 #endif

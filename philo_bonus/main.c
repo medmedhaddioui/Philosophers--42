@@ -6,11 +6,17 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 11:52:32 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/27 15:43:13 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:17:14 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
+
+void	ft_exit(char *s)
+{
+	perror(s);
+	exit(EXIT_FAILURE);
+}
 
 int	check_arg(int argc, char **argv)
 {

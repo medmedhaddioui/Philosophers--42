@@ -6,23 +6,19 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:21:48 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/28 13:39:28 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:17:22 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo_bonus.h"
 
-void	ft_exit(char *s)
-{
-	perror(s);
-	exit(EXIT_FAILURE);
-}
-void ft_error (char *s, t_philo *philo)
+void	ft_error(char *s, t_philo *philo)
 {
 	perror(s);
 	sem_cleanup(philo);
 	exit(EXIT_FAILURE);
 }
+
 void	sem_cleanup(t_philo *philo)
 {
 	if (sem_close(philo->forks) == -1)
