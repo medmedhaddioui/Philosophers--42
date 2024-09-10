@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/05 16:28:53 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/25 12:51:29 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:20:00 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	*routine(void *data)
 	philo = data;
 	while (!dead_lock_func(philo))
 	{
+		eating(philo);
 		if (philo->flag == EAT_COUNT_ON
 			&& philo->nb_times_to_eat == philo->eating_count)
 		{
@@ -27,7 +28,6 @@ void	*routine(void *data)
 			pthread_mutex_unlock(philo->full_lock);
 			break ;
 		}
-		eating(philo);
 		sleeping(philo);
 		thinking(philo);
 	}

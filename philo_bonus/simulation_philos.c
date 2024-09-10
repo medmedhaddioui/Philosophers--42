@@ -6,7 +6,7 @@
 /*   By: mel-hadd <mel-hadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 18:29:43 by mel-hadd          #+#    #+#             */
-/*   Updated: 2024/05/28 22:37:31 by mel-hadd         ###   ########.fr       */
+/*   Updated: 2024/09/10 14:21:34 by mel-hadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,9 @@ void	routine(t_philo *philo)
 		ft_error("Error pthread_create\n", philo);
 	while (1)
 	{
-		philo_checker(philo, check_death, EAT_CHECK);
 		philo_checker(philo, check_death, DIE_CHECK);
 		eating(philo);
+		philo_checker(philo, check_death, EAT_CHECK);
 		sleeping(philo);
 		thinking(philo);
 	}
